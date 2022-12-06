@@ -9,6 +9,7 @@ public interface DBIFEDescription {
 
 	List<EDescription> findAll() throws DataAccessException;
 	EDescription findByEID(int eID) throws DataAccessException;
+	boolean insertEDescription(EDescription eDescription) throws DataAccessException;
 
 	
 }

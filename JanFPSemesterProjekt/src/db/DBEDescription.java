@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,17 +15,20 @@ public class DBEDescription implements DBIFEDescription {
 			"select eID, eName, model from EDescription";
 	private static final String selectByEIDQ = 
 			selectAllQ + " where eID = ?";
+	private static final String insertEDescriptionQ =
+			"insert into EDescription (eName, model) values (?,?)";
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
 	private PreparedStatement selectByEID;
+	private PreparedStatement insertEDescription; 
 	
 	
 	public DBEDescription()throws SQLException {
-		selectAll = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectAllQ);
-		selectByEID = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectByEIDQ);
+		Connection con = DBConnection.getInstance().getConnection();
+		selectAll = con.prepareStatement(selectAllQ);
+		selectByEID = con.prepareStatement(selectByEIDQ);
+		insertEDescription = con.prepareStatement(insertEDescriptionQ);
 	}
 
 	/*
@@ -53,7 +57,7 @@ public class DBEDescription implements DBIFEDescription {
 			if(rs.next()) {
 				eDescription = buildObject(rs);
 				//System.out.println(employee.getName());
-				System.out.print(eDescription.geteID() + "\t" + eDescription.geteName() + "\t" + eDescription.getModel());
+				//System.out.print(eDescription.geteID() + "\t" + eDescription.geteName() + "\t" + eDescription.getModel());
 				
 			}
 	
@@ -90,6 +94,29 @@ public class DBEDescription implements DBIFEDescription {
 		}
 		return res;
 	}
+
+	@Override
+	public boolean insertEDescription(EDescription eDescription) throws DataAccessException {
+		boolean wasInsertedOK;
+
+		try {
+			//"insert into EDescription (eID, eName, model) values (?,?,?)";
+			//insertEDescription.setInt(1, eDescription.geteID());
+			insertEDescription.setString(1, eDescription.geteName());
+			insertEDescription.setString(2, eDescription.getModel());
+			int rowsInserted = insertEDescription.executeUpdate();
+			wasInsertedOK = (rowsInserted == 1);
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			throw he;
+		}
+		
+		return wasInsertedOK;
+	}
+	
+	
+	
 	
 	
 }

@@ -8,7 +8,7 @@ public class Connect {
 	public static void main (String[] args ) {
 		
 		try { Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlserver://127.0.0.1:1433; databaseName=test;user=sa;password=qmb52xzp;encrypt=false"); 
+		Connection con = DriverManager.getConnection("jdbc:sqlserver://127.0.0.1:1433; databaseName=Jpuds;user=sa;password=qmb52xzp;encrypt=false"); 
 		printPerson(con); } 
 		//printDepartment(con); }
 		//printWorks(con);}

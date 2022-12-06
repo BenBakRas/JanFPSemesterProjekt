@@ -35,4 +35,12 @@ public class EDescriptionController {
 		return eDescription;
 	}
 	
+	public boolean insertEDescription(String eName, String model) throws DataAccessException {
+		EDescription eDescription = new EDescription(eName, model);
+		boolean wasInsertedOK = dbEDescription.insertEDescription(eDescription);
+		
+		return wasInsertedOK;
+	}
+	
+	
 }

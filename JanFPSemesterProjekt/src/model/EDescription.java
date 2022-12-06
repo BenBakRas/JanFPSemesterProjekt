@@ -14,6 +14,12 @@ public class EDescription {
 		this.eID = eID;
 		
 	}
+	public EDescription(String eName, String model) {
+		
+		this.eName = eName;
+		this.model = model;
+		
+	}
 	
 	public String toString() {
 		return "Equipment Name: " + geteName() + " Model: " + getModel() + " eID: " + geteID();
@@ -23,6 +29,7 @@ public class EDescription {
 	public EDescription(int eID) {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 
 	/**

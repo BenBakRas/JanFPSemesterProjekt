@@ -108,18 +108,21 @@ public class test extends JFrame {
 					eID = Integer.parseInt(textEID.getText());
 					String eName = textEName.getText();
 					String model = textModel.getText();
-					EDescription CurrEDescription;
-					CurrEDescription = eDescriptionController.createEDescription(eName, model, eID);
+					//EDescription CurrEDescription;
+					//CurrEDescription = eDescriptionController.createEDescription(eName, model, eID);
 					
-					int serialNumber;
-					serialNumber = Integer.parseInt(textField_serialNumber.getText());
-					String eState = textField_eState.getText();
+					boolean wasInsertedOK = eDescriptionController.insertEDescription(eName, model);
 					
-					Equipment equipment;
-					equipment = equipmentController.createEquipment(serialNumber, eState, CurrEDescription);
 					
-					System.out.println(CurrEDescription.toString());
-					System.out.println(equipment.toString());
+					System.out.println("wasInsertedOK");
+					//int serialNumber;
+					//serialNumber = Integer.parseInt(textField_serialNumber.getText());
+					//String eState = textField_eState.getText();
+					
+					////equipment = equipmentController.createEquipment(serialNumber, eState, CurrEDescription);
+					
+					//System.out.println(CurrEDescription.toString());
+					//System.out.println(equipment.toString());
 					
 					
 					
