@@ -28,4 +28,12 @@ public class WorksiteController {
 		return dbWorksite.findByWID(wID);
 	}
 	
+	public boolean insertWorksite(String wAddress, String zipCode) throws DataAccessException {
+		Worksite worksite = new Worksite(wAddress, zipCode);
+		boolean wasInsertedOK = dbWorksite.insertWorksite(worksite);		
+		
+		return wasInsertedOK;
+	}
+
 }
+	

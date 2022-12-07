@@ -28,13 +28,11 @@ public class EquipmentController {
 		return dbEquipment.findBySerialNumber(serialNumber);
 	}
 	
-	public Equipment createEquipment(int serialNumber, String eState, EDescription eID) {
-		Equipment equipment = new Equipment(serialNumber, eState, eID );
-		if(eID != null) {
-			
-		}
-		System.out.println("Equipment added");
-		return equipment;
+	public boolean insertEquipment(int serialNumber, String eState, EDescription eID)throws DataAccessException {
+		Equipment equipment = new Equipment(serialNumber, eState,eID);
+		boolean wasInsertedOK = dbEquipment.insertEquipment(equipment);
+		
+		return wasInsertedOK;
 	}
 
 }

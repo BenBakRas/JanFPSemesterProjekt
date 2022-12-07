@@ -7,17 +7,17 @@ public class EDescription {
 	private int eID;
 	
 	
-	public EDescription(String eName, String model,int eID) {
-		
-		this.eName = eName;
-		this.model = model;
-		this.eID = eID;
-		
-	}
 	public EDescription(String eName, String model) {
 		
 		this.eName = eName;
 		this.model = model;
+		
+	}
+	// Reuses constructor with fewer parameters.
+	public EDescription(String eName, String model, int eID) {
+		
+		this(eName, model);
+		this.eID = eID;
 		
 	}
 	

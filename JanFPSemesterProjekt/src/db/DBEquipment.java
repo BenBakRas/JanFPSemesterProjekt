@@ -2,6 +2,7 @@ package db;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 
 import java.sql.ResultSet;
@@ -29,12 +30,10 @@ public class DBEquipment implements DBIFEquipment{
 	private PreparedStatement InsertEquipment;
 	
 	public DBEquipment()throws SQLException {
-		selectAll = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectAllQ);
-		selectBySerialNumber = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectBySerialNumberQ);
-		InsertEquipment = DBConnection.getInstance().getConnection()
-		.prepareStatement(InsertEquipmentQ);
+		Connection con = DBConnection.getInstance().getConnection();
+		selectAll = con.prepareStatement(selectAllQ);
+		selectBySerialNumber = con.prepareStatement(selectBySerialNumberQ);
+		InsertEquipment = con.prepareStatement(InsertEquipmentQ);
 		
 	}
 	/*
@@ -101,22 +100,24 @@ public class DBEquipment implements DBIFEquipment{
 		return res;
 	}
 	@Override
-	public Equipment insertEquipment(Equipment equipment) throws DataAccessException {
+	public boolean insertEquipment(Equipment equipment) throws DataAccessException {
 		
-		if(equipment != null) {
-			
-			try {
-				
-				InsertEquipment.executeQuery();
-				InsertEquipment.executeUpdate(InsertEquipmentQ);
-				
-			} catch (SQLException e) {
-				DataAccessException he = new DataAccessException(e, "Could not find all");
-				throw he;
-			}
+		boolean wasInsertedOK;
 
+		try {
+			//"insert into equipment (serialNumber, eState, eID) values (?,?,?)";
+			InsertEquipment.setInt(1, equipment.getSerialNumber());
+			InsertEquipment.setString(2, equipment.geteState());
+			InsertEquipment.setInt(3, equipment.getDescription().geteID());
+			int rowsInserted = InsertEquipment.executeUpdate();
+			wasInsertedOK = (rowsInserted == 1);
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			throw he;
 		}
-		return equipment;
+		
+		return wasInsertedOK;
 	}
 }
 

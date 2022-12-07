@@ -6,32 +6,32 @@ public class Employee {
 	private String address;
 	private String phone;
 	private String email;
-	private int zipCode;
+	private String zipCode;
 	private String city;
 	private String position;
-	private int ID;
 	private Worksite worksite;
+	private int ID;
+
+	public Employee(String name, String address, String phone, String email, String zipCode, String position, Worksite worksite) {
+	this.name = name;
+	this.address = address;
+	this.phone = phone;
+	this.email = email;
+	this.position = position;
+	this.zipCode = zipCode;
+	this.worksite = worksite;
+}
 	
-	public Employee(String name, String address, String phone, String email, int zipCode, String position, int ID, Worksite worksite) {
-		this.name = name;
-		this.address = address;
-		this.phone = phone;
-		this.email = email;
-		this.position = position;
-		this.zipCode = zipCode;
-		this.city = city;
+	
+	public Employee (String name, String address, String phone, String email, String zipCode, String position, Worksite worksite, int ID) {
+		this(name, address, phone, email, zipCode, position, worksite);
 		this.ID = ID;
-		this.worksite = worksite;
-		
 	}
 	
-	public Employee(int ID) {
-		
-	}
 		
 	@Override
 	public String toString() {
-		return "Name: " + getName()+ ". Phone: " + getPhone() + ". Address: " + getAddress() + ". ID: " + getEmployeeID();
+		return "Name: " + getName()+ ". Phone: " + getPhone() + ". Address: " + getAddress() + ". ID: " + getID();
 	}
 	
 	
@@ -53,7 +53,7 @@ public class Employee {
 	/**
 	 * @return the employeeID
 	 */
-	public int getEmployeeID() {
+	public int getID() {
 		return ID;
 	}
 
@@ -122,13 +122,13 @@ public class Employee {
 	/**
 	 * @return the zipCode
 	 */
-	public int getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
 	/**
 	 * @param zipCode the zipCode to set
 	 */
-	public void setZipCode(int zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 	/**

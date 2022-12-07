@@ -1,6 +1,8 @@
 package db;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,20 +15,22 @@ import model.Worksite;
 public class DBEmployee implements DBIFEmployee {
 
 	private static final String selectAllQ = 
-			//"select name, address, phone, email, position, zipCode, city, ID, wID from employee";
 			"Select ID, name, address, zipCode, phone, email, position, wID from employee";
 	private static final String selectByIDQ = 
 			selectAllQ + " where ID = ?";
+	private static final String insertEmployeeQ =
+			"select (name, address, zipCode, phone, email, position, wID) values (?,?,?,?,?,?,?) ";
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
 	private PreparedStatement selectByID;
+	private PreparedStatement insertEmployee;
 	
 	public DBEmployee() throws SQLException {
-		selectAll = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectAllQ);
-		selectByID = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectByIDQ);
+		Connection con = DBConnection.getInstance().getConnection();
+		selectAll = con.prepareStatement(selectAllQ);
+		selectByID = con.prepareStatement(selectByIDQ);
+		insertEmployee = con.prepareStatement(insertEmployeeQ);
 	}
 	
 	/*
@@ -54,15 +58,14 @@ public class DBEmployee implements DBIFEmployee {
 			ResultSet rs = selectByID.executeQuery();
 			if(rs.next()) {
 				employee = buildObject(rs);
-				//System.out.println(employee.getName());
-				System.out.print(employee);
+				
 				
 			}
 	
 		} catch (SQLException e) {
 			throw new DataAccessException(e, "Could not find by ID = " + ID);
 		}
-		
+		System.out.print(employee);
 		return employee;
 	}
 	/*
@@ -74,14 +77,14 @@ public class DBEmployee implements DBIFEmployee {
 				rs.getString("address"),
 				rs.getString("phone"),
 				rs.getString("email"),
-				rs.getInt("zipCode"),
+				rs.getString("zipCode"),
 				rs.getString("position"),
-				rs.getInt("ID"),
-				(new Worksite(rs.getInt("wID")))
+				(new Worksite(rs.getInt("wID"))),
+				rs.getInt("ID")
 				);
 		return employee;
 	}
-	
+
 	/*
 	 * BuildObjects of employee list
 	 */
@@ -91,10 +94,41 @@ public class DBEmployee implements DBIFEmployee {
 		while(rs.next()) {
 			res.add(buildObject(rs));
 			
-			for(Employee employee: res) {
-				System.out.println(employee);
+			
+			for(int i=0; i<res.size();i++) {
+				System.out.println(res.get(i));
 			}
+			
+			/*for(Employee employee: res) {
+				System.out.println(employee);
+			*/
 		}
 		return res;
 	}
+
+	@Override
+	public boolean insertEmployee(Employee employee) throws DataAccessException {
+		boolean wasInsertedOK;
+
+		try {
+			//"select (name, address, zipCode, phone, email, position, wID) values (?,?,?,?,?,?,?) ";
+			
+			insertEmployee.setString(1, employee.getName());
+			insertEmployee.setString(2, employee.getAddress());
+			insertEmployee.setString(3, employee.getZipCode());
+			insertEmployee.setString(4, employee.getPhone());
+			insertEmployee.setString(5, employee.getEmail());
+			insertEmployee.setString(6, employee.getPosition());
+			insertEmployee.setInt(7, employee.getwID().getwID());
+			int rowsInserted = insertEmployee.executeUpdate();
+			wasInsertedOK = (rowsInserted == 1);
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			throw he;
+		}
+		
+		return wasInsertedOK;
+	}
+	
 }

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 
+
 import controller.EDescriptionController;
 import controller.EmployeeController;
 import controller.EquipmentController;
@@ -35,6 +36,15 @@ public class test extends JFrame {
 	private JTextField textModel;
 	private JTextField textField_serialNumber;
 	private JTextField textField_eState;
+	private JTextField textField_wAddress;
+	private JTextField textField_zipCode;
+	private JTextField textField_name;
+	private JTextField textField_address;
+	private JTextField textField_ZipCityCode;
+	private JTextField textField_phone;
+	private JTextField textField_email;
+	private JTextField textField_position;
+	private JTextField textField_wID;
 
 	/**
 	 * Launch the application.
@@ -57,7 +67,7 @@ public class test extends JFrame {
 	 */
 	public test() throws DataAccessException{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 802, 436);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -104,8 +114,8 @@ public class test extends JFrame {
 				try {
 					eDescriptionController = new EDescriptionController();
 					equipmentController = new EquipmentController();
-					int eID;
-					eID = Integer.parseInt(textEID.getText());
+					//int eID;
+					//eID = Integer.parseInt(textEID.getText());
 					String eName = textEName.getText();
 					String model = textModel.getText();
 					//EDescription CurrEDescription;
@@ -115,16 +125,6 @@ public class test extends JFrame {
 					
 					
 					System.out.println("wasInsertedOK");
-					//int serialNumber;
-					//serialNumber = Integer.parseInt(textField_serialNumber.getText());
-					//String eState = textField_eState.getText();
-					
-					////equipment = equipmentController.createEquipment(serialNumber, eState, CurrEDescription);
-					
-					//System.out.println(CurrEDescription.toString());
-					//System.out.println(equipment.toString());
-					
-					
 					
 					
 				} catch (DataAccessException e1) {
@@ -133,7 +133,7 @@ public class test extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(57, 186, 112, 23);
+		btnNewButton_1.setBounds(57, 150, 112, 23);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblSerialNumber = new JLabel("Serial Number");
@@ -157,12 +157,176 @@ public class test extends JFrame {
 		JButton btnCreateEquipment = new JButton("create EQ");
 		btnCreateEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					eDescriptionController = new EDescriptionController();
+					equipmentController = new EquipmentController();
+					
+					int serialNumber;
+					serialNumber = Integer.parseInt(textField_serialNumber.getText());
+					String eState = textField_eState.getText();
+					int eID;
+					eID = Integer.parseInt(textEID.getText());
+					
+					boolean wasInsertedOK = equipmentController.insertEquipment(serialNumber, eState, eDescriptionController.findByEID(eID));
+					
+					
+					System.out.println("wasInsertedOK");
+					
+
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				
 			}
 		});
-		btnCreateEquipment.setBounds(294, 145, 89, 23);
+		btnCreateEquipment.setBounds(294, 95, 89, 23);
 		panel.add(btnCreateEquipment);
+		
+		JButton btnCreateWorksite = new JButton("create Worksite");
+		btnCreateWorksite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					worksiteController = new WorksiteController();
+					
+					
+					String zipCode = textField_zipCode.getText();
+					String wAddress = textField_wAddress.getText();
+					
+					
+					boolean wasInsertedOK = worksiteController.insertWorksite(wAddress, zipCode);
+					
+					
+					
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		btnCreateWorksite.setBounds(384, 269, 128, 21);
+		panel.add(btnCreateWorksite);
+		
+		JLabel lblNewLabel = new JLabel("wAddress");
+		lblNewLabel.setBounds(345, 190, 45, 13);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("zipCode");
+		lblNewLabel_1.setBounds(345, 213, 45, 13);
+		panel.add(lblNewLabel_1);
+		
+		textField_wAddress = new JTextField();
+		textField_wAddress.setBounds(398, 187, 96, 19);
+		panel.add(textField_wAddress);
+		textField_wAddress.setColumns(10);
+		
+		textField_zipCode = new JTextField();
+		textField_zipCode.setBounds(400, 210, 96, 19);
+		panel.add(textField_zipCode);
+		textField_zipCode.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Name");
+		lblNewLabel_2.setBounds(505, 38, 45, 13);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Address");
+		lblNewLabel_3.setBounds(505, 64, 45, 13);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("zipCode");
+		lblNewLabel_4.setBounds(505, 87, 45, 13);
+		panel.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("phone");
+		lblNewLabel_5.setBounds(505, 110, 45, 13);
+		panel.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("email");
+		lblNewLabel_6.setBounds(505, 133, 45, 13);
+		panel.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("position");
+		lblNewLabel_7.setBounds(505, 155, 45, 13);
+		panel.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("wID");
+		lblNewLabel_8.setBounds(504, 175, 45, 13);
+		panel.add(lblNewLabel_8);
+		
+		textField_name = new JTextField();
+		textField_name.setBounds(559, 35, 96, 19);
+		panel.add(textField_name);
+		textField_name.setColumns(10);
+		
+		textField_address = new JTextField();
+		textField_address.setBounds(560, 61, 96, 19);
+		panel.add(textField_address);
+		textField_address.setColumns(10);
+		
+		textField_ZipCityCode = new JTextField();
+		textField_ZipCityCode.setBounds(559, 84, 96, 19);
+		panel.add(textField_ZipCityCode);
+		textField_ZipCityCode.setColumns(10);
+		
+		textField_phone = new JTextField();
+		textField_phone.setBounds(559, 107, 96, 19);
+		panel.add(textField_phone);
+		textField_phone.setColumns(10);
+		
+		textField_email = new JTextField();
+		textField_email.setBounds(560, 130, 96, 19);
+		panel.add(textField_email);
+		textField_email.setColumns(10);
+		
+		textField_position = new JTextField();
+		textField_position.setBounds(560, 152, 96, 19);
+		panel.add(textField_position);
+		textField_position.setColumns(10);
+		
+		textField_wID = new JTextField();
+		textField_wID.setBounds(559, 172, 96, 19);
+		panel.add(textField_wID);
+		textField_wID.setColumns(10);
+		
+		JButton btnNewButton_2 = new JButton("Create employee");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					employeeController = new EmployeeController();
+					worksiteController = new WorksiteController();
+					
+					
+					String name = textField_name.getText();
+					String address = textField_address.getText();
+					String phone = textField_phone.getText();
+					String email = textField_email.getText();
+					String zipCode = textField_zipCode.getText();
+					String position = textField_position.getText();
+					int wID;
+					wID = Integer.parseInt(textField_wID.getText());
+					
+					boolean wasInsertedOK = employeeController.insertEmployee(name, address, phone, email, zipCode, position, worksiteController.findByWID(wID));
+					/*
+					 * Virker ikke, der skal laves en zipcity klasse til at kunne indsætte zipcode. 
+					 * Så den bliver hentet på samme måde same wID
+					 */
+					//System.out.println(wasInsertedOK);
+					System.out.println("was Inserted OK");
+					
+					
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		btnNewButton_2.setBounds(569, 209, 85, 21);
+		panel.add(btnNewButton_2);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);

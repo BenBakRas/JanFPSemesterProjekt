@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,20 +11,23 @@ import model.Worksite;
 public class DBWorksite implements DBIFWorksite {
 
 	private static final String selectAllQ = 
-			"select wID, wAddress, zipCode from worksite";
+			"select wAddress, zipCode, wID from worksite";
 	private static final String selectByWIDQ = 
 			selectAllQ + " where wID = ?";
+	private static final String insertWorksiteQ =
+			"insert into Worksite (wAddress, zipCode) values (?,?)";
+			
 	
 	//PrepatredStatements
-	private PreparedStatement selectAll; 
+	private PreparedStatement selectAll;
 	private PreparedStatement selectByWID;
-	
+	private PreparedStatement insertWorksite;
 	
 	public DBWorksite()throws SQLException {
-		selectAll = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectAllQ);
-		selectByWID = DBConnection.getInstance().getConnection()
-				.prepareStatement(selectByWIDQ);
+		Connection con = DBConnection.getInstance().getConnection();
+		selectAll = con.prepareStatement(selectAllQ);
+		selectByWID  = con.prepareStatement(selectByWIDQ);
+		insertWorksite = con.prepareStatement(insertWorksiteQ);
 	}
 	
 	
@@ -68,9 +72,9 @@ public class DBWorksite implements DBIFWorksite {
 	 */
 	private Worksite buildObject(ResultSet rs) throws SQLException {
 		Worksite worksite = new Worksite(
-				rs.getInt("wID"),
 				rs.getString("wAddress"),
-				rs.getInt("zipCode")
+				rs.getString("zipCode"),
+				rs.getInt("wID")
 				);
 		
 		
@@ -92,10 +96,27 @@ public class DBWorksite implements DBIFWorksite {
 		}
 		return res;
 	}
-	
-	
-	
-	
+
+
+	@Override
+	public boolean insertWorksite(Worksite worksite) throws DataAccessException {
+		boolean wasInsertedOK;
+
+		try {
+			insertWorksite.setString(1, worksite.getwAddress());
+			insertWorksite.setString(2, worksite.getZipCode());
+			int rowsInserted = insertWorksite.executeUpdate();
+			wasInsertedOK = (rowsInserted == 1);
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			throw he;
+		}
+		
+		return wasInsertedOK;
+	}
+		
+}
 	
 
-}
+
