@@ -10,6 +10,7 @@ import db.DataAccessException;
 import model.EDescription;
 import model.Employee;
 import model.Equipment;
+import model.RentOrder;
 import model.RentOrderLine;
 import model.Worksite;
 
@@ -29,12 +30,12 @@ public class RentOrderLineController {
 		return dbRentOrderLine.findAll();
 	}
 	
-	public RentOrderLine findBySerialNumber(int serialNumber) throws DataAccessException {
-		return dbRentOrderLine.findBySerialNumber(serialNumber);
+	public RentOrderLine findByRID(int rID) throws DataAccessException {
+		return dbRentOrderLine.findByRID(rID);
 	}
 	
-	public boolean insertRentOrderLine(Date returnDate, Equipment equipment, EDescription eDescription) throws DataAccessException {
-		RentOrderLine rentOrderLine = new RentOrderLine(returnDate, equipment, eDescription);
+	public boolean insertRentOrderLine(Date returnDate, Equipment equipment, EDescription eDescription, RentOrder rID) throws DataAccessException {
+		RentOrderLine rentOrderLine = new RentOrderLine(returnDate, equipment, eDescription, rID);
 		boolean wasInsertedOK = dbRentOrderLine.insertRentOrderLine(rentOrderLine);
 		
 		return wasInsertedOK;

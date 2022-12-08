@@ -15,7 +15,6 @@ public class EDescription {
 	}
 	// Reuses constructor with fewer parameters.
 	public EDescription(String eName, String model, int eID) {
-		
 		this(eName, model);
 		this.eID = eID;
 		
@@ -27,7 +26,7 @@ public class EDescription {
 
 
 	public EDescription(int eID) {
-		// TODO Auto-generated constructor stub
+		this.eID = eID;
 	}
 	
 

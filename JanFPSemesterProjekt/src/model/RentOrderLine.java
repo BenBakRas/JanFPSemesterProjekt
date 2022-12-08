@@ -21,7 +21,7 @@ public class RentOrderLine {
 	}
 
 	public String toString() {
-		return "Date: " + getReturnDate() + ". Equipment: " + getEquipment();
+		return "ReturnDate: " + getReturnDate() + ". SerialNumber: " + getEquipment().getSerialNumber() + ". eID: " + geteDescription().geteID();
 	}
 	
 	/**

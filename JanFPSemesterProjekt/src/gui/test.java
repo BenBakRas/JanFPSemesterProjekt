@@ -12,7 +12,9 @@ import controller.RentOrderController;
 import controller.RentOrderLineController;
 import controller.WorksiteController;
 import db.DataAccessException;
-
+import model.EDescription;
+import model.Equipment;
+import model.RentOrderLine;
 
 import java.awt.EventQueue;
 import java.awt.TextField;
@@ -53,6 +55,7 @@ public class test extends JFrame {
 	private JTextField textField_rentedFrom;
 	private JTextField textField_rentedTo;
 	private JTextField textField_empID;
+	private JTextField textField_rID;
 
 	/**
 	 * Launch the application.
@@ -141,7 +144,7 @@ public class test extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(57, 150, 112, 23);
+		btnNewButton_1.setBounds(57, 150, 142, 23);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblSerialNumber = new JLabel("Serial Number");
@@ -333,7 +336,7 @@ public class test extends JFrame {
 				
 			}
 		});
-		btnNewButton_2.setBounds(569, 209, 85, 21);
+		btnNewButton_2.setBounds(569, 209, 128, 21);
 		panel.add(btnNewButton_2);
 		
 		JLabel lblNewLabel_9 = new JLabel("rentedFrom");
@@ -367,10 +370,14 @@ public class test extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					rentOrderLineController = new RentOrderLineController();
+					eDescriptionController = new EDescriptionController();
+					equipmentController = new EquipmentController();
 					rentOrderController = new RentOrderController();
 					employeeController = new EmployeeController();
 					worksiteController = new WorksiteController();
-					
+				
+		
 					int rentedFrom = Integer.parseInt(textField_rentedFrom.getText());
 					int rentedTo = Integer.parseInt(textField_rentedTo.getText());
 					int empID = Integer.parseInt(textField_empID.getText());
@@ -380,8 +387,14 @@ public class test extends JFrame {
 					
 					boolean wasInsertedOK = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
 					
-					System.out.println(wasInsertedOK);
+					int serialNumber = Integer.parseInt(textField_serialNumber.getText());
+					int eID = Integer.parseInt(textEID.getText());
+					int rID = Integer.parseInt(textField_rID.getText());
 					
+					boolean wasAlsoInsertedOK = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
+
+					System.out.println(wasInsertedOK);
+					System.out.println(wasAlsoInsertedOK);
 				} catch (DataAccessException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -389,8 +402,50 @@ public class test extends JFrame {
 				
 			}
 		});
-		btnNewButton_3.setBounds(80, 303, 89, 23);
+		btnNewButton_3.setBounds(80, 303, 119, 23);
 		panel.add(btnNewButton_3);
+		
+		textField_rID = new JTextField();
+		textField_rID.setBounds(207, 252, 96, 19);
+		panel.add(textField_rID);
+		textField_rID.setColumns(10);
+		
+		JLabel lblNewLabel_12 = new JLabel("rID");
+		lblNewLabel_12.setBounds(213, 230, 45, 13);
+		panel.add(lblNewLabel_12);
+		
+		JButton btnNewButton_4 = new JButton("create rentOrderLine");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					rentOrderLineController = new RentOrderLineController();
+					eDescriptionController = new EDescriptionController();
+					equipmentController = new EquipmentController();
+					rentOrderController = new RentOrderController();
+					java.util.Date utilDate = new java.util.Date();
+				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					int serialNumber = Integer.parseInt(textField_serialNumber.getText());
+					int eID = Integer.parseInt(textEID.getText());
+					int rID = Integer.parseInt(textField_rID.getText());
+
+				
+					rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
+					
+					
+					
+					
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton_4.setBounds(206, 281, 128, 21);
+		panel.add(btnNewButton_4);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);
@@ -398,33 +453,44 @@ public class test extends JFrame {
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				int ID = 109;
-				int serialNumber = 45;
-				int eID = 1;
-				int wID = 2001;
+				//int ID = 109;
+				//int serialNumber = 45;
+				//int eID = 1;
+				//int wID = 2001;
 				int rID = 1001;
 				 try {
 					//employeeController = new EmployeeController();
 					//employeeController.findByEID(ID);
 					//employeeController.findAll();
 					 
-					//equipmentController = new EquipmentController();
+					equipmentController = new EquipmentController();
 					//equipmentController.findBySerialNumber(serialNumber);
 					
 					 
-					//eDescriptionController = new EDescriptionController();
+					eDescriptionController = new EDescriptionController();
 					//eDescriptionController.findByEID(eID);
 					 
-					//worksiteController = new WorksiteController();
-					// worksiteController.findByWID(wID);
-					// worksiteController.findAll();
+					////worksiteController.findByWID(wID);
+					//worksiteController.findAll();
 		
 					//rentOrderController = new RentOrderController();
 					//rentOrderController.findByRID(rID);
+					 
 					rentOrderLineController = new RentOrderLineController();
-					rentOrderLineController.findBySerialNumber(serialNumber);
-					 
-					 
+					RentOrderLine rentOrderLine = rentOrderLineController.findByRID(rID);
+					System.out.println("RentOrderLine info");
+					System.out.println(rentOrderLine + ". rID: " + rID);
+					int serialNumber = rentOrderLine.getEquipment().getSerialNumber();
+					System.out.println(serialNumber);
+					int eID = rentOrderLine.geteDescription().geteID();
+					EDescription eDescription = eDescriptionController.findByEID(eID);
+					System.out.println(eDescription);
+					System.out.println("Name: " + eDescription.geteName() + "Model: " + eDescription.getModel() + "eID: " + eDescription.geteID());
+					
+					Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
+					System.out.println("SerialNumber: " + equipment.getSerialNumber() + ". State: "+ equipment.geteState());
+					
+					
 				} catch (DataAccessException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

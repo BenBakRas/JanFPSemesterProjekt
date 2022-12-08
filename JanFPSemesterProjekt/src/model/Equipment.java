@@ -14,11 +14,11 @@ public class Equipment {
 
 	
 	public Equipment(int serialNumber) {
-		
+		this.serialNumber = serialNumber;
 	}
 	
 	public String toString() {
-		return "SerialNumber: " + getSerialNumber() + ". State: " + geteState() + ". Description: " + getDescription();
+		return "SerialNumber: " + getSerialNumber() + ". State: " + geteState();
 	}
 	
 	

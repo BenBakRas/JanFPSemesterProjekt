@@ -16,22 +16,22 @@ public class DBRentOrderLine {
 
 	private static final String selectAllQ = 
 			"select rID, serialNumber, eID, returnDate from rentOrderLine";
-	private static final String selectBySerialNumberQ = 
-			selectAllQ + " where serialNumber = ?";
-	private static final String InsertRentOrderLineQ = 
-			"insert into rentOrderLine (rID, serialNumber, eID, returnDate) values (?,?,?,?)";
+	private static final String selectByRIDQ = 
+			selectAllQ + " where rID = ?";
+	private static final String insertRentOrderLineQ = 
+			"insert into rentOrderLine (returnDate, serialNumber, eID, rID) values (?,?,?,?)";
 
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
-	private PreparedStatement selectBySerialNumber;
+	private PreparedStatement selectByRID;
 	private PreparedStatement InsertRentOrderLine;
 	
 	public DBRentOrderLine() throws SQLException{
 		Connection con = DBConnection.getInstance().getConnection();
 		selectAll = con.prepareStatement(selectAllQ);
-		selectBySerialNumber = con.prepareStatement(selectBySerialNumberQ);
-		InsertRentOrderLine = con.prepareStatement(InsertRentOrderLineQ);
+		selectByRID = con.prepareStatement(selectByRIDQ);
+		InsertRentOrderLine = con.prepareStatement(insertRentOrderLineQ);
 	}
 	
 	
@@ -53,20 +53,20 @@ public class DBRentOrderLine {
 	 * Finds employee by serialNumber
 	 * @returns equipment
 	 */
-	public RentOrderLine findBySerialNumber(int serialNumber) throws DataAccessException {
+	public RentOrderLine findByRID(int rID) throws DataAccessException {
 		RentOrderLine rentOrderLine = null;
 		try {
-			selectBySerialNumber.setInt(1, serialNumber);
-			ResultSet rs = selectBySerialNumber.executeQuery();
+			selectByRID.setInt(1, rID);
+			ResultSet rs = selectByRID.executeQuery();
 			if(rs.next()) {
 				rentOrderLine = buildObject(rs);
 				//System.out.println(employee.getName());
-				System.out.print(rentOrderLine);
+				//System.out.print(rentOrderLine);
 				
 			}
 	
 		} catch (SQLException e) {
-			throw new DataAccessException(e, "Could not find by serialNumber = " + serialNumber);
+			throw new DataAccessException(e, "Could not find by serialNumber = " + rID);
 		}
 		
 		return rentOrderLine;
@@ -77,7 +77,7 @@ public class DBRentOrderLine {
 	private RentOrderLine buildObject(ResultSet rs) throws SQLException {
 		RentOrderLine rentOrderLine = new RentOrderLine(
 				rs.getDate("returnDate"),
-				(new Equipment(rs.getInt("eID"))),
+				(new Equipment(rs.getInt("serialNumber"))),
 				(new EDescription(rs.getInt("eID"))),
 				(new RentOrder(rs.getInt("rID")))
 				);
@@ -103,12 +103,14 @@ public class DBRentOrderLine {
 	public boolean insertRentOrderLine(RentOrderLine rentOrderLine) throws DataAccessException {
 		
 		boolean wasInsertedOK;
-
+		java.util.Date utilDate = new java.util.Date();
+	    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		try {
 			//insert into rentOrderLine (rID, serialNumber, eID, returnDate) values (?,?,?,?)"
-			InsertRentOrderLine.setInt(1, rentOrderLine.getrID().getrID());
+			InsertRentOrderLine.setDate(1, sqlDate);
 			InsertRentOrderLine.setInt(2, rentOrderLine.getEquipment().getSerialNumber());
 			InsertRentOrderLine.setInt(3, rentOrderLine.geteDescription().geteID());
+			InsertRentOrderLine.setInt(4, rentOrderLine.getrID().getrID());
 			int rowsInserted = InsertRentOrderLine.executeUpdate();
 			wasInsertedOK = (rowsInserted == 1);
 			

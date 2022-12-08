@@ -63,7 +63,7 @@ public class DBEquipment implements DBIFEquipment{
 			if(rs.next()) {
 				equipment = buildObject(rs);
 				//System.out.println(employee.getName());
-				System.out.print(equipment);
+				//System.out.print(equipment);
 				
 			}
 	

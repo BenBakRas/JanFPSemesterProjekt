@@ -58,7 +58,7 @@ public class DBEDescription implements DBIFEDescription {
 			if(rs.next()) {
 				eDescription = buildObject(rs);
 				//System.out.println(employee.getName());
-				//System.out.print(eDescription.geteID() + "\t" + eDescription.geteName() + "\t" + eDescription.getModel());
+			//System.out.println(eDescription);
 				
 			}
 	
