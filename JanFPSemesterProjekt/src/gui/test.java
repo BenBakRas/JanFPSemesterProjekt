@@ -3,13 +3,16 @@ package gui;
 import java.awt.BorderLayout;
 
 
+
+
 import controller.EDescriptionController;
 import controller.EmployeeController;
 import controller.EquipmentController;
+import controller.RentOrderController;
+import controller.RentOrderLineController;
 import controller.WorksiteController;
 import db.DataAccessException;
-import model.EDescription;
-import model.Equipment;
+
 
 import java.awt.EventQueue;
 import java.awt.TextField;
@@ -31,6 +34,8 @@ public class test extends JFrame {
 	private EquipmentController equipmentController;
 	private EDescriptionController eDescriptionController;
 	private WorksiteController worksiteController;
+	private RentOrderController rentOrderController;
+	private RentOrderLineController rentOrderLineController;
 	private JTextField textEID;
 	private JTextField textEName;
 	private JTextField textModel;
@@ -45,6 +50,9 @@ public class test extends JFrame {
 	private JTextField textField_email;
 	private JTextField textField_position;
 	private JTextField textField_wID;
+	private JTextField textField_rentedFrom;
+	private JTextField textField_rentedTo;
+	private JTextField textField_empID;
 
 	/**
 	 * Launch the application.
@@ -328,6 +336,62 @@ public class test extends JFrame {
 		btnNewButton_2.setBounds(569, 209, 85, 21);
 		panel.add(btnNewButton_2);
 		
+		JLabel lblNewLabel_9 = new JLabel("rentedFrom");
+		lblNewLabel_9.setBounds(10, 229, 49, 14);
+		panel.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("rentedTo");
+		lblNewLabel_10.setBounds(10, 254, 49, 14);
+		panel.add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("empID");
+		lblNewLabel_11.setBounds(10, 272, 49, 14);
+		panel.add(lblNewLabel_11);
+		
+		textField_rentedFrom = new JTextField();
+		textField_rentedFrom.setBounds(73, 226, 96, 20);
+		panel.add(textField_rentedFrom);
+		textField_rentedFrom.setColumns(10);
+		
+		textField_rentedTo = new JTextField();
+		textField_rentedTo.setBounds(73, 251, 96, 20);
+		panel.add(textField_rentedTo);
+		textField_rentedTo.setColumns(10);
+		
+		textField_empID = new JTextField();
+		textField_empID.setBounds(73, 272, 96, 20);
+		panel.add(textField_empID);
+		textField_empID.setColumns(10);
+		
+		JButton btnNewButton_3 = new JButton("create rentOrder");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rentOrderController = new RentOrderController();
+					employeeController = new EmployeeController();
+					worksiteController = new WorksiteController();
+					
+					int rentedFrom = Integer.parseInt(textField_rentedFrom.getText());
+					int rentedTo = Integer.parseInt(textField_rentedTo.getText());
+					int empID = Integer.parseInt(textField_empID.getText());
+					
+					java.util.Date utilDate = new java.util.Date();
+				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					
+					boolean wasInsertedOK = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
+					
+					System.out.println(wasInsertedOK);
+					
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnNewButton_3.setBounds(80, 303, 89, 23);
+		panel.add(btnNewButton_3);
+		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);
 		
@@ -338,10 +402,11 @@ public class test extends JFrame {
 				int serialNumber = 45;
 				int eID = 1;
 				int wID = 2001;
+				int rID = 1001;
 				 try {
-					employeeController = new EmployeeController();
+					//employeeController = new EmployeeController();
 					//employeeController.findByEID(ID);
-					employeeController.findAll();
+					//employeeController.findAll();
 					 
 					//equipmentController = new EquipmentController();
 					//equipmentController.findBySerialNumber(serialNumber);
@@ -353,7 +418,11 @@ public class test extends JFrame {
 					//worksiteController = new WorksiteController();
 					// worksiteController.findByWID(wID);
 					// worksiteController.findAll();
-					 
+		
+					//rentOrderController = new RentOrderController();
+					//rentOrderController.findByRID(rID);
+					rentOrderLineController = new RentOrderLineController();
+					rentOrderLineController.findBySerialNumber(serialNumber);
 					 
 					 
 				} catch (DataAccessException e1) {

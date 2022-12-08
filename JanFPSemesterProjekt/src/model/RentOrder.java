@@ -14,22 +14,37 @@ public class RentOrder {
 	
 	
 	
-	public RentOrder(int rID, Date rentDate) {
-		this.rID = rID;
+	public RentOrder(Date rentDate, Worksite rentedFrom, Worksite rentedTo, Employee empID) {
 		this.rentDate = rentDate;
+		this.rentedFrom = rentedFrom;
+		this.rentedTo = rentedTo;
+		this.empID = empID;
 		rentOrderLines = new ArrayList<>();
+	}
+	
+	//Reuses constructor with fewer parameters.
+	public RentOrder(Date rentDate,int rID, Worksite rentedFrom, Worksite rentedTo, Employee empID) {
+		this(rentDate, rentedFrom, rentedTo, empID);
+		this.rID = rID;
+	}
+	public RentOrder(int rID) {
+		
+	}
+	
+	public String toString() {
+		return "RentDate: " + getRentDate() + ". rID: " + getrID();
 	}
 
 	
-	public RentOrderLine createOrderLine(Equipment eq, EDescription eDesc, Date returnDate){
-		RentOrderLine rentOrderLine = new RentOrderLine(eq, eDesc,returnDate);
+	public RentOrderLine createOrderLine(Date returnDate, Equipment eq, EDescription eDesc){
+		RentOrderLine rentOrderLine = new RentOrderLine(returnDate, eq, eDesc);
 		rentOrderLines.add(rentOrderLine);
         return rentOrderLine;
     }
     
    
     
-    public RentOrderLine addProductToOrder(Equipment eq, EDescription eDesc, Date returnDate){
+    public RentOrderLine addProductToOrder(Date returnDate, Equipment eq, EDescription eDesc){
         if(rentOrderLines.size() != 0){
             for(RentOrderLine rentOrderLine : rentOrderLines){
                 if(rentOrderLine.getEquipment().equals(eq)){
@@ -39,12 +54,12 @@ public class RentOrder {
                 	rentOrderLine.seteDescription(eDesc);
                     return rentOrderLine;
                 } else {
-                    return createOrderLine(eq, eDesc, returnDate);
+                    return createOrderLine(returnDate, eq, eDesc);
                 }
             }
         }
         else {
-        	return createOrderLine(eq, eDesc, returnDate);
+        	return createOrderLine(returnDate, eq, eDesc);
         }
         return null;
     }

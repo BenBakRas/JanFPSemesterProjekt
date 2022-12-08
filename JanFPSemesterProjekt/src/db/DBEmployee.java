@@ -106,6 +106,10 @@ public class DBEmployee implements DBIFEmployee {
 		return res;
 	}
 
+	/*
+	 * Inserts a rentOrder into the database
+	 */
+	
 	@Override
 	public boolean insertEmployee(Employee employee) throws DataAccessException {
 		boolean wasInsertedOK;

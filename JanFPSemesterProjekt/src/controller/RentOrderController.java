@@ -1,11 +1,14 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import db.DBRentOrder;
 import db.DataAccessException;
+import model.Employee;
 import model.RentOrder;
+import model.Worksite;
 
 
 public class RentOrderController {
@@ -28,5 +31,10 @@ public class RentOrderController {
 		return dbRentOrder.findByRID(rID);
 	}
 	
-	
+	public boolean insertRentOrder(Date rentDate, Worksite rentedFrom, Worksite rentedTo, Employee empID) throws DataAccessException {
+		RentOrder rentOrder = new RentOrder(rentDate, rentedFrom, rentedTo, empID);
+		boolean wasInsertedOK = dbRentOrder.insertRentOrder(rentOrder);
+		
+		return wasInsertedOK;
+	}
 }

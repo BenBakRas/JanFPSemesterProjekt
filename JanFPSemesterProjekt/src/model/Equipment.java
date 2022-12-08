@@ -13,6 +13,10 @@ public class Equipment {
 	}
 
 	
+	public Equipment(int serialNumber) {
+		
+	}
+	
 	public String toString() {
 		return "SerialNumber: " + getSerialNumber() + ". State: " + geteState() + ". Description: " + getDescription();
 	}

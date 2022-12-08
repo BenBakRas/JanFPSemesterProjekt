@@ -7,14 +7,23 @@ public class RentOrderLine {
 	private Date returnDate;
 	private Equipment equipment;
 	private EDescription eDescription;
+	private RentOrder rID;
 	
-	public RentOrderLine(Equipment equipment, EDescription eDescription, Date returnDate) {
+	public RentOrderLine(Date returnDate, Equipment equipment, EDescription eDescription) {
 		
 		this.returnDate = returnDate;
 		this.equipment = equipment;
 		this.eDescription = eDescription;
 	}
+	public RentOrderLine (Date returnDate, Equipment equipment, EDescription eDescription, RentOrder rID) {
+		this(returnDate, equipment, eDescription);
+		this.rID = rID;
+	}
 
+	public String toString() {
+		return "Date: " + getReturnDate() + ". Equipment: " + getEquipment();
+	}
+	
 	/**
 	 * @return the returnDate
 	 */
@@ -49,6 +58,25 @@ public class RentOrderLine {
 	public void seteDescription(EDescription eDescription) {
 		this.eDescription = eDescription;
 	}
+	/**
+	 * @return the rID
+	 */
+	public RentOrder getrID() {
+		return rID;
+	}
+	/**
+	 * @param rID the rID to set
+	 */
+	public void setrID(RentOrder rID) {
+		this.rID = rID;
+	}
+	/**
+	 * @param returnDate the returnDate to set
+	 */
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+	
 
 	
 }

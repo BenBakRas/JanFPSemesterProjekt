@@ -27,9 +27,12 @@ public class Employee {
 		this(name, address, phone, email, zipCode, position, worksite);
 		this.ID = ID;
 	}
+	public Employee(int ID) {
+		
+	}
 	
 		
-	@Override
+	
 	public String toString() {
 		return "Name: " + getName()+ ". Phone: " + getPhone() + ". Address: " + getAddress() + ". ID: " + getID();
 	}
