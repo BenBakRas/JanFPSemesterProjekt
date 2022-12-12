@@ -41,6 +41,7 @@ public class createRentOrder extends JFrame {
 	private JTable RentedEquipmentTable;
 	DefaultTableModel model;
 	private EquipmentController equipmentController;
+	private EDescriptionController eDescriptionController;
 	
 
 	/**
@@ -198,6 +199,17 @@ public class createRentOrder extends JFrame {
 			}
 		});
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JButton btnAdd_1 = new JButton("Opret Order");
+		btnAdd_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				 
+				
+			}
+		});
+		btnAdd_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GroupLayout gl_panelCenter = new GroupLayout(panelCenter);
 		gl_panelCenter.setHorizontalGroup(
 			gl_panelCenter.createParallelGroup(Alignment.TRAILING)
@@ -214,17 +226,20 @@ public class createRentOrder extends JFrame {
 									.addComponent(lblWriteRentedTO)
 									.addGap(57)
 									.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblWriteRentedFrom)
 								.addComponent(lblWriteSerialNumber))
-							.addGap(51)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_panelCenter.createSequentialGroup()
-									.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnAdd))
-								.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(btnAdd)
+									.addGap(10))
+								.addComponent(btnAdd_1, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelCenter.createSequentialGroup()
 							.addGap(18)
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
@@ -235,24 +250,26 @@ public class createRentOrder extends JFrame {
 		gl_panelCenter.setVerticalGroup(
 			gl_panelCenter.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCenter.createSequentialGroup()
-					.addGap(23)
-					.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblWriteRentedTO)
-						.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblWriteRentedFrom))
+					.addGap(21)
+					.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblWriteRentedTO)
+							.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblWriteRentedFrom)
+							.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnAdd_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblWriteEmployeeID)
 						.addComponent(textField_EmployeeID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblWriteSerialNumber)
-						.addComponent(btnAdd))
+						.addComponent(btnAdd)
+						.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(45)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnRemove)
-					.addContainerGap(17, Short.MAX_VALUE))
+					.addContainerGap(19, Short.MAX_VALUE))
 		);
 		
 		RentedEquipmentTable = new JTable();
@@ -282,12 +299,14 @@ public class createRentOrder extends JFrame {
 	
 	private void updateList() throws DataAccessException{
 		// TODO Auto-generated method stub
+		equipmentController = new EquipmentController();
+		eDescriptionController = new EDescriptionController();
 		Object[] rowData = new Object[5];
 		rowData[0] = textField_SerialNumber.getText();
 		int serialNumber = Integer.parseInt( textField_SerialNumber.getText());
-		equipmentController = new EquipmentController();
 		Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
-		EDescription eDescription = equipment.getDescription();
+		int eID = equipment.getDescription().geteID();
+		EDescription eDescription = eDescriptionController.findByEID(eID);
 		rowData[1] = eDescription.geteName();
 		rowData[2] = eDescription.getModel();
 		rowData[3] = equipment.geteState();

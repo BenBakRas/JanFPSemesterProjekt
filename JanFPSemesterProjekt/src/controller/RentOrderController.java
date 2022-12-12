@@ -37,4 +37,6 @@ public class RentOrderController {
 		
 		return wasInsertedOK;
 	}
+	
+	
 }

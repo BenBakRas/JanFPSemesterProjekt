@@ -65,7 +65,7 @@ public class DBEmployee implements DBIFEmployee {
 		} catch (SQLException e) {
 			throw new DataAccessException(e, "Could not find by ID = " + ID);
 		}
-		System.out.print(employee);
+		//System.out.print(employee);
 		return employee;
 	}
 	/*

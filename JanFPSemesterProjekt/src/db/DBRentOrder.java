@@ -21,6 +21,7 @@ public class DBRentOrder implements DBIFRentOrder{
 	private static final String insertRentOrderQ =
 			"insert into RentOrder(rentDate, rentedFrom, rentedTo, empID) values (?,?,?,?)";
 	
+	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
 	private PreparedStatement selectByRID;
@@ -32,6 +33,7 @@ public class DBRentOrder implements DBIFRentOrder{
 		selectAll = con.prepareStatement(selectAllQ);
 		selectByRID = con.prepareStatement(selectByRIDQ);
 		insertRentOrder = con.prepareStatement(insertRentOrderQ);
+		
 	}
 
 	/*
@@ -60,7 +62,7 @@ public class DBRentOrder implements DBIFRentOrder{
 			if(rs.next()) {
 				rentOrder = buildObject(rs);
 				//System.out.println(employee.getName());
-				System.out.print(rentOrder);
+				//System.out.print(rentOrder);
 				
 			}
 	
@@ -70,6 +72,8 @@ public class DBRentOrder implements DBIFRentOrder{
 		
 		return rentOrder;
 	}
+	
+	
 	/*
 	 * Builds RentOrder Object
 	 */

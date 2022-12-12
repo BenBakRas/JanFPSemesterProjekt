@@ -19,11 +19,11 @@ public class RentOrder {
 		this.rentedFrom = rentedFrom;
 		this.rentedTo = rentedTo;
 		this.empID = empID;
-		rentOrderLines = new ArrayList<>();
+		
 	}
 	
 	//Reuses constructor with fewer parameters.
-	public RentOrder(Date rentDate,int rID, Worksite rentedFrom, Worksite rentedTo, Employee empID) {
+	public RentOrder(Date rentDate, int rID, Worksite rentedFrom, Worksite rentedTo, Employee empID) {
 		this(rentDate, rentedFrom, rentedTo, empID);
 		this.rID = rID;
 	}
@@ -35,7 +35,7 @@ public class RentOrder {
 		return "RentDate: " + getRentDate() + ". rID: " + getrID();
 	}
 
-	
+	/*
 	public RentOrderLine createOrderLine(Date returnDate, Equipment eq, EDescription eDesc){
 		RentOrderLine rentOrderLine = new RentOrderLine(returnDate, eq, eDesc);
 		rentOrderLines.add(rentOrderLine);
@@ -75,7 +75,7 @@ public class RentOrder {
     
     public void clear() {
     	rentOrderLines.clear(); 
-    }
+    }*/
 	
 	/**
 	 * @return the rID

@@ -57,7 +57,7 @@ public class DBWorksite implements DBIFWorksite {
 			if(rs.next()) {
 				worksite = buildObject(rs);
 				//System.out.println(employee.getName());
-				System.out.print(worksite);
+				//System.out.print(worksite);
 				
 			}
 	
