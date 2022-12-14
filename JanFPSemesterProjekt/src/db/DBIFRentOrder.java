@@ -9,7 +9,7 @@ public interface DBIFRentOrder {
 
 	List<RentOrder> findAll() throws DataAccessException;
 	RentOrder findByRID(int rID) throws DataAccessException;
-	boolean insertRentOrder(RentOrder rentOrder) throws DataAccessException;
+	int insertRentOrder(RentOrder rentOrder) throws DataAccessException;
 	
 
 }

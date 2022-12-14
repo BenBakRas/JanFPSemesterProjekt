@@ -379,25 +379,25 @@ public class test extends JFrame {
 					worksiteController = new WorksiteController();
 				
 		
-					//int rentedFrom = Integer.parseInt(textField_rentedFrom.getText());
-					//int rentedTo = Integer.parseInt(textField_rentedTo.getText());
+					int rentedFrom = Integer.parseInt(textField_rentedFrom.getText());
+					int rentedTo = Integer.parseInt(textField_rentedTo.getText());
 					int empID = Integer.parseInt(textField_empID.getText());
 					
 					java.util.Date utilDate = new java.util.Date();
 				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-					/*
-					boolean wasInsertedOK = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
-					*/
+					
+					int rID = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
+					
 			
 					
 					int serialNumber = Integer.parseInt(textField_serialNumber.getText());
 					Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
 					EDescription eDescription = equipment.getDescription();
-					RentOrder rentOrder = rentOrderController.findByEmpID(empID);
+					              
 					int eID = eDescription.geteID();
 					//int eID = Integer.parseInt(textEID.getText());
-					//int rID = Integer.parseInt(textField_rID.getText());
-					int rID = rentOrder.getrID();
+					//int rID = rent
+					
 					
 				
 					boolean wasAlsoInsertedOk = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
@@ -444,7 +444,7 @@ public class test extends JFrame {
 					java.util.Date utilDate = new java.util.Date();
 				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 					
-					boolean wasInsertedOK = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
+					int wasInsertedOK = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
 					System.out.println(wasInsertedOK);
 			
 					

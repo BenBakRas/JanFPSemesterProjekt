@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DBRentOrder implements DBIFRentOrder{
 		Connection con = DBConnection.getInstance().getConnection();
 		selectAll = con.prepareStatement(selectAllQ);
 		selectByRID = con.prepareStatement(selectByRIDQ);
-		insertRentOrder = con.prepareStatement(insertRentOrderQ);
+		insertRentOrder = con.prepareStatement(insertRentOrderQ, Statement.RETURN_GENERATED_KEYS);
 		
 	}
 
@@ -107,8 +108,41 @@ public class DBRentOrder implements DBIFRentOrder{
 	/*
 	 * Inserts a rentOrder into the database
 	 */
-	
 	@Override
+	public int insertRentOrder(RentOrder rentOrder) throws DataAccessException {
+	
+		java.util.Date utilDate = new java.util.Date();
+	    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	    int insertedId = -1;
+		int errorNum = 0;
+		int rowCount = -1;
+	    try {
+			
+			//"insert into RentOrder(rentDate, rentedFrom, rentedTo, empID) values (?,?,?,?)";
+			insertRentOrder.setDate(1, sqlDate);
+			insertRentOrder.setInt(2, rentOrder.getRentedFrom().getwID());
+			insertRentOrder.setInt(3, rentOrder.getRentedTo().getwID());
+			insertRentOrder.setInt(4, rentOrder.getEmpID().getID());
+			
+			rowCount = insertRentOrder.executeUpdate();
+			// If any rows inserted then fetch PK key value
+			if (rowCount > 0) {
+				ResultSet rs = insertRentOrder.getGeneratedKeys();
+				rs.next();
+				insertedId = rs.getInt(1);
+			} else {
+				errorNum = -1;
+			}
+			
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			throw he;
+		}
+		
+		return insertedId;
+	}
+	/*@Override
 	public boolean insertRentOrder(RentOrder rentOrder) throws DataAccessException {
 		boolean wasInsertedOK;
 		java.util.Date utilDate = new java.util.Date();
@@ -129,6 +163,6 @@ public class DBRentOrder implements DBIFRentOrder{
 		}
 		
 		return wasInsertedOK;
-	}
+	}*/
 	
 }

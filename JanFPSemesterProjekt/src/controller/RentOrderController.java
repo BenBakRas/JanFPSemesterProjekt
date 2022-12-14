@@ -31,11 +31,12 @@ public class RentOrderController {
 		return dbRentOrder.findByRID(rID);
 	}
 	
-	public boolean insertRentOrder(Date rentDate, Worksite rentedFrom, Worksite rentedTo, Employee empID) throws DataAccessException {
+	public int insertRentOrder(Date rentDate, Worksite rentedFrom, Worksite rentedTo, Employee empID) throws DataAccessException {
 		RentOrder rentOrder = new RentOrder(rentDate, rentedFrom, rentedTo, empID);
-		boolean wasInsertedOK = dbRentOrder.insertRentOrder(rentOrder);
+		int rID = dbRentOrder.insertRentOrder(rentOrder);
 		
-		return wasInsertedOK;
+		
+		return rID;
 	}
 	
 	
