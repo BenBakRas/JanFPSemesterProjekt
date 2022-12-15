@@ -91,6 +91,9 @@ public class createRentOrder extends JFrame {
 		panelNorth.add(panelWest2, BorderLayout.WEST);
 		panelWest2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
+		JLabel lblRID = new JLabel("");
+		lblRID.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
 		JLabel lblRentedTo = new JLabel("Lejet Til:");
 		lblRentedTo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelWest2.add(lblRentedTo);
@@ -131,7 +134,18 @@ public class createRentOrder extends JFrame {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+				rentOrderController = new RentOrderController();
+				int rID = Integer.parseInt(lblRID.getText());
+				rentOrderController.deletedFromRentOrderLine(rID);
 				dispose();
+				openRentMenu();
+				
+				} catch (Exception w) {
+                    System.out.println(w);
+                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+                    // TODO Auto-generated catch block
+                }
 			}
 		});
 		
@@ -206,9 +220,6 @@ public class createRentOrder extends JFrame {
 		textField_EmployeeID = new JTextField();
 		textField_EmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textField_EmployeeID.setColumns(10);
-		
-		JLabel lblRID = new JLabel("");
-		lblRID.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -426,5 +437,9 @@ public class createRentOrder extends JFrame {
 		findEquipment dialog = new findEquipment();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
+	}
+	public static void openRentMenu() {
+		RentMenu frame = new RentMenu();
+		frame.setVisible(true);
 	}
 }

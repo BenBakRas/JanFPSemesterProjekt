@@ -69,6 +69,7 @@ public class RentMenu extends JFrame {
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openCreateRentOrder();
+				dispose();
 			}
 		});
 		btnCreate.setBounds(10, 90, 89, 23);
