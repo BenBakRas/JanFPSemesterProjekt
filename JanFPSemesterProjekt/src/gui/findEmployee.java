@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -19,6 +20,9 @@ import javax.swing.JScrollPane;
 
 import controller.EmployeeController;
 import db.DataAccessException;
+import model.EDescription;
+import model.Employee;
+import model.Equipment;
 
 public class findEmployee extends JDialog {
 
@@ -86,7 +90,7 @@ public class findEmployee extends JDialog {
 				JButton btnFindAll = new JButton("Find Alle");
 				btnFindAll.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						EmployeefindAll();
+						EmployeeFindAll();
 					}
 				});
 				btnFindAll.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -115,7 +119,10 @@ public class findEmployee extends JDialog {
 	public void EmployeeFindAll() {
 		try {
 			employeeController = new EmployeeController();
-			employeeController.findAll();
+			List<Employee> res = employeeController.findAll();
+			for(int i = 0; i < res.size(); i++) {
+				
+			}
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

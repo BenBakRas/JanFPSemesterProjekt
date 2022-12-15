@@ -19,7 +19,7 @@ public class DBEmployee implements DBIFEmployee {
 	private static final String selectByIDQ = 
 			selectAllQ + " where ID = ?";
 	private static final String insertEmployeeQ =
-			"select (name, address, zipCode, phone, email, position, wID) values (?,?,?,?,?,?,?) ";
+			"insert into Employee (name, address, zipCode, phone, email, position, wID) values (?,?,?,?,?,?,?) ";
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
@@ -93,15 +93,11 @@ public class DBEmployee implements DBIFEmployee {
 		List<Employee> res = new ArrayList<>();
 		while(rs.next()) {
 			res.add(buildObject(rs));
-			
-			
-			for(int i=0; i<res.size();i++) {
-				System.out.println(res.get(i));
 			}
-			
-			/*for(Employee employee: res) {
+	
+			for(Employee employee: res) {
 				System.out.println(employee);
-			*/
+			
 		}
 		return res;
 	}

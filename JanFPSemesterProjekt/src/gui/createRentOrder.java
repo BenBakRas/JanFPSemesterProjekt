@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -28,10 +30,12 @@ import controller.EmployeeController;
 import controller.EDescriptionController;
 import controller.EquipmentController;
 import controller.RentOrderController;
+import controller.RentOrderLineController;
 import controller.WorksiteController;
 import db.DataAccessException;
 import model.EDescription;
 import model.Equipment;
+import model.RentOrderLine;
 
 public class createRentOrder extends JFrame {
 
@@ -44,6 +48,11 @@ public class createRentOrder extends JFrame {
 	DefaultTableModel model;
 	private EquipmentController equipmentController;
 	private EDescriptionController eDescriptionController;
+	private RentOrderLineController rentOrderLineController;
+	private RentOrderController rentOrderController;
+	private EmployeeController employeeController;
+	private WorksiteController worksiteController;
+	private RentOrderLine rentOrderLine;
 
 	
 
@@ -119,16 +128,21 @@ public class createRentOrder extends JFrame {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(panelSouth, BorderLayout.SOUTH);
 		
-		JButton btnCreate = new JButton("Opret");
-		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panelSouth.add(btnCreate);
-		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		JButton btnFinish = new JButton("Afslut ordre");
+		btnFinish.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnFinish.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panelSouth.add(btnFinish);
 		panelSouth.add(btnCancel);
 		
 		JPanel panelEast = new JPanel();
@@ -193,46 +207,105 @@ public class createRentOrder extends JFrame {
 		textField_EmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textField_EmployeeID.setColumns(10);
 		
+		JLabel lblRID = new JLabel("");
+		lblRID.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JButton btnAdd = new JButton("Tilf\u00F8j");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					updateList();
-				} catch (DataAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				int serialNumber = Integer.parseInt(textField_SerialNumber.getText());
+				Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
+				EDescription eDescription = equipment.getDescription();
+				              
+				int eID = eDescription.geteID();
+				//int eID = Integer.parseInt(textEID.getText());
+				int rID = Integer.parseInt(lblRID.getText());
+				
+				java.util.Date utilDate = new java.util.Date();
+			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			
+			    updateList();
 				addToList();
+				
+				boolean	wasAlsoInsertedOk = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
+				} catch (Exception w) {
+                    System.out.println(w);
+                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+                    // TODO Auto-generated catch block
+                }
 			}
+				
+				
 		});
+		
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JButton btnRemove = new JButton("Fjern V\u00E6rkt\u00F8j");
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				deleteEquipment dialog = new deleteEquipment();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);
+				
 				int i = RentedEquipmentTable.getSelectedRow();
 				model.removeRow(i);
+				
 			}
 		});
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JButton btnAdd_1 = new JButton("Opret Order");
-		btnAdd_1.addActionListener(new ActionListener() {
+		JButton btnCreate = new JButton("Opret");
+		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					rentOrderLineController = new RentOrderLineController();
+					eDescriptionController = new EDescriptionController();
+					equipmentController = new EquipmentController();
+					rentOrderController = new RentOrderController();
+					employeeController = new EmployeeController();
+					worksiteController = new WorksiteController();
 				
-				
-				 
+		
+					int rentedFrom = Integer.parseInt(textField_RentedFrom.getText());
+					lblRentedFrom.setText(textField_RentedFrom.getText());
+					textField_RentedFrom.setText("");
+					int rentedTo = Integer.parseInt(textField_RentedTo.getText());
+					lblRentedTo.setText(textField_RentedTo.getText());
+					textField_RentedTo.setText("");
+					int empID = Integer.parseInt(textField_EmployeeID.getText());
+					lblEmployeeID.setText(textField_EmployeeID.getText());
+					textField_EmployeeID.setText("");
+					
+					java.util.Date utilDate = new java.util.Date();
+				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					
+					int rID = rentOrderController.insertRentOrder(sqlDate, worksiteController.findByWID(rentedFrom), worksiteController.findByWID(rentedTo), employeeController.findByEID(empID));
+					
+					
+					
+					lblRID.setText(Integer.toString(rID));
+					
+				} catch (Exception w) {
+                    System.out.println(w);
+                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+                    // TODO Auto-generated catch block
+                }
 				
 			}
 		});
-		btnAdd_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblRentOrderID = new JLabel("Ordrens ID:");
+		lblRentOrderID.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GroupLayout gl_panelCenter = new GroupLayout(panelCenter);
 		gl_panelCenter.setHorizontalGroup(
 			gl_panelCenter.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelCenter.createSequentialGroup()
-					.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelCenter.createSequentialGroup()
 							.addGap(27)
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
@@ -244,7 +317,7 @@ public class createRentOrder extends JFrame {
 									.addComponent(lblWriteRentedTO)
 									.addGap(57)
 									.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblWriteRentedFrom)
 								.addComponent(lblWriteSerialNumber))
@@ -252,42 +325,47 @@ public class createRentOrder extends JFrame {
 							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
 								.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panelCenter.createSequentialGroup()
-									.addComponent(btnAdd)
-									.addGap(10))
-								.addComponent(btnAdd_1, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)))
+							.addGap(67)
+							.addGroup(gl_panelCenter.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnAdd)
+								.addComponent(btnCreate)))
 						.addGroup(gl_panelCenter.createSequentialGroup()
 							.addGap(18)
-							.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
-								.addComponent(btnRemove)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 559, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 559, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelCenter.createSequentialGroup()
+							.addGap(19)
+							.addComponent(lblRentOrderID)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblRID)
+							.addPreferredGap(ComponentPlacement.RELATED, 386, Short.MAX_VALUE)
+							.addComponent(btnRemove)))
 					.addContainerGap())
 		);
 		gl_panelCenter.setVerticalGroup(
 			gl_panelCenter.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCenter.createSequentialGroup()
-					.addGap(21)
-					.addGroup(gl_panelCenter.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblWriteRentedTO)
-							.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblWriteRentedFrom)
-							.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnAdd_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+					.addGap(23)
+					.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblWriteRentedTO)
+						.addComponent(textField_RentedTo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWriteRentedFrom)
+						.addComponent(textField_RentedFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCreate))
 					.addGap(18)
 					.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblWriteEmployeeID)
 						.addComponent(textField_EmployeeID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblWriteSerialNumber)
-						.addComponent(btnAdd)
-						.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_SerialNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdd))
 					.addGap(45)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(btnRemove)
-					.addContainerGap(19, Short.MAX_VALUE))
+					.addGroup(gl_panelCenter.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnRemove)
+						.addComponent(lblRID)
+						.addComponent(lblRentOrderID))
+					.addContainerGap(15, Short.MAX_VALUE))
 		);
 		
 		RentedEquipmentTable = new JTable();

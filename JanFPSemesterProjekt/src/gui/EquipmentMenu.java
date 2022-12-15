@@ -57,22 +57,22 @@ public class EquipmentMenu extends JFrame {
 		btnCancel.setBounds(335, 227, 89, 23);
 		contentPane.add(btnCancel);
 		
-		JButton btnCreate = new JButton("Create");
+		JButton btnCreate = new JButton("Create V\u00F8rkt\u00F8j");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openCreateEquipment();
 			}
 		});
-		btnCreate.setBounds(10, 90, 89, 23);
+		btnCreate.setBounds(10, 90, 114, 23);
 		contentPane.add(btnCreate);
 		
-		JButton btnFind = new JButton("Find");
+		JButton btnFind = new JButton("Find V\u00E6rkt\u00E6j");
 		btnFind.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFindEquipment();
 			}
 		});
-		btnFind.setBounds(10, 124, 89, 23);
+		btnFind.setBounds(10, 124, 114, 23);
 		contentPane.add(btnFind);
 		
 		JLabel lblEquipmentMenu = new JLabel("V\u00E6rkt\u00F8js Menu");
@@ -80,6 +80,14 @@ public class EquipmentMenu extends JFrame {
 		lblEquipmentMenu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblEquipmentMenu.setBounds(90, 11, 250, 50);
 		contentPane.add(lblEquipmentMenu);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(306, 90, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnFindDecsription = new JButton("New button");
+		btnFindDecsription.setBounds(306, 124, 89, 23);
+		contentPane.add(btnFindDecsription);
 	}
 	public static void backToMain() {
 		Main frame = new Main();
