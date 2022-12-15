@@ -9,5 +9,6 @@ public interface DBIFRentOrderLine {
 	List<RentOrderLine> findAll() throws DataAccessException;
 	RentOrderLine findByserialNumber(int serialNumber) throws DataAccessException;
 	boolean insertWorksite(RentOrderLine rentOrderLine) throws DataAccessException;
+	int deleteRentOrderLine(int serialNumber)throws DataAccessException;
 	
 }

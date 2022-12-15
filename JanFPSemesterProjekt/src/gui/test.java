@@ -57,6 +57,7 @@ public class test extends JFrame {
 	private JTextField textField_rentedTo;
 	private JTextField textField_empID;
 	private JTextField textField_rID;
+	private JTextField textField_serialNumberToDelete;
 
 	/**
 	 * Launch the application.
@@ -460,6 +461,34 @@ public class test extends JFrame {
 		});
 		btnNewButton_4.setBounds(206, 281, 128, 21);
 		panel.add(btnNewButton_4);
+		
+		textField_serialNumberToDelete = new JTextField();
+		textField_serialNumberToDelete.setBounds(539, 305, 96, 19);
+		panel.add(textField_serialNumberToDelete);
+		textField_serialNumberToDelete.setColumns(10);
+		
+		JButton btnNewButton_5 = new JButton("New button");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					rentOrderLineController = new RentOrderLineController();
+					
+					int serialNumber = Integer.parseInt(textField_serialNumberToDelete.getText());
+					int deletedRows = rentOrderLineController.deletedFromRentOrderLine(serialNumber);
+					
+					System.out.println("OrderLines deleted: " + deletedRows);
+					
+				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton_5.setBounds(645, 304, 85, 21);
+		panel.add(btnNewButton_5);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);

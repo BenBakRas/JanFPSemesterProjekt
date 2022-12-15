@@ -41,4 +41,10 @@ public class RentOrderLineController {
 		return wasInsertedOK;
 	}
 	
+	public int deletedFromRentOrderLine(int serialNumber) throws DataAccessException {
+		int deleted = dbRentOrderLine.deleteFromRentOrderLine(serialNumber);
+
+		return deleted;
+	}
+
 }
