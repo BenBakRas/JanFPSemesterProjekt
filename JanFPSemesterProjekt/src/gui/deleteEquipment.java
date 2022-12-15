@@ -59,6 +59,12 @@ public class deleteEquipment extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton BtnDelete = new JButton("Fjern");
+				BtnDelete.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						dispose();
+					}
+				});
 				BtnDelete.setActionCommand("OK");
 				buttonPane.add(BtnDelete);
 				getRootPane().setDefaultButton(BtnDelete);

@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class createEquipment extends JFrame {
@@ -65,7 +66,7 @@ public class createEquipment extends JFrame {
 		btnCancel.setBounds(335, 227, 89, 23);
 		contentPane.add(btnCancel);
 		
-		JButton btnCreate = new JButton("Create");
+		JButton btnCreate = new JButton("Opret");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -84,10 +85,11 @@ public class createEquipment extends JFrame {
 					System.out.println("wasInsertedOK");
 					
 
-				} catch (DataAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				} catch (Exception w) {
+                    System.out.println(w);
+                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+                    // TODO Auto-generated catch block
+                }
 			}
 		});
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 12));

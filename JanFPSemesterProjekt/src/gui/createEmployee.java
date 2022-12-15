@@ -180,10 +180,10 @@ public class createEmployee extends JFrame {
 		contentPane.add(textField_ZipCode);
 		textField_ZipCode.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(10, 120, 46, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblZipCode = new JLabel("Post nummer:");
+		lblZipCode.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblZipCode.setBounds(10, 120, 88, 14);
+		contentPane.add(lblZipCode);
 	}
 	public static void backToEmployeeMenu() {
 		EmployeeMenu frame = new EmployeeMenu();

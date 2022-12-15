@@ -58,6 +58,7 @@ public class EquipmentMenu extends JFrame {
 		contentPane.add(btnCancel);
 		
 		JButton btnCreate = new JButton("Create V\u00F8rkt\u00F8j");
+		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openCreateEquipment();
@@ -67,6 +68,7 @@ public class EquipmentMenu extends JFrame {
 		contentPane.add(btnCreate);
 		
 		JButton btnFind = new JButton("Find V\u00E6rkt\u00E6j");
+		btnFind.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnFind.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFindEquipment();
@@ -81,12 +83,18 @@ public class EquipmentMenu extends JFrame {
 		lblEquipmentMenu.setBounds(90, 11, 250, 50);
 		contentPane.add(lblEquipmentMenu);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(306, 90, 89, 23);
-		contentPane.add(btnNewButton);
+		JButton btnCreateDescription = new JButton("Create Beskrivelse");
+		btnCreateDescription.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCreateDescription.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnCreateDescription.setBounds(242, 90, 153, 23);
+		contentPane.add(btnCreateDescription);
 		
-		JButton btnFindDecsription = new JButton("New button");
-		btnFindDecsription.setBounds(306, 124, 89, 23);
+		JButton btnFindDecsription = new JButton("Find Beskrivelse");
+		btnFindDecsription.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnFindDecsription.setBounds(242, 124, 153, 23);
 		contentPane.add(btnFindDecsription);
 	}
 	public static void backToMain() {

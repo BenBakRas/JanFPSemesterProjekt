@@ -126,13 +126,9 @@ public class test extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					eDescriptionController = new EDescriptionController();
-					equipmentController = new EquipmentController();
-					//int eID;
-					//eID = Integer.parseInt(textEID.getText());
+					equipmentController = new EquipmentController();					
 					String eName = textEName.getText();
 					String model = textModel.getText();
-					//EDescription CurrEDescription;
-					//CurrEDescription = eDescriptionController.createEDescription(eName, model, eID);
 					
 					boolean wasInsertedOK = eDescriptionController.insertEDescription(eName, model);
 					
