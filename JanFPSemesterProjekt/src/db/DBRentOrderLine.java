@@ -20,18 +20,22 @@ public class DBRentOrderLine {
 			selectAllQ + " where rID = ?";
 	private static final String insertRentOrderLineQ = 
 			"insert into rentOrderLine (returnDate, serialNumber, eID, rID) values (?,?,?,?)";
+	private static final String deleteFromRentOrderLineQ =
+			"delete from RentOrderline where serialNumber = ?";
 
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
 	private PreparedStatement selectByRID;
 	private PreparedStatement InsertRentOrderLine;
+	private PreparedStatement deleteFromRentOrderLine;
 	
 	public DBRentOrderLine() throws SQLException{
 		Connection con = DBConnection.getInstance().getConnection();
 		selectAll = con.prepareStatement(selectAllQ);
 		selectByRID = con.prepareStatement(selectByRIDQ);
 		InsertRentOrderLine = con.prepareStatement(insertRentOrderLineQ);
+		deleteFromRentOrderLine = con.prepareStatement(deleteFromRentOrderLineQ);
 	}
 	
 	
@@ -121,6 +125,21 @@ public class DBRentOrderLine {
 		
 		return wasInsertedOK;
 	}
+	
+		public int deleteFromRentOrderLine(int serialNumber)throws DataAccessException {
+			int deleted = 0;
+			try {
+				deleteFromRentOrderLine.setInt(1, serialNumber);
+				deleted = deleteFromRentOrderLine.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return deleted;
+		}
+	
+
 }
 
 
