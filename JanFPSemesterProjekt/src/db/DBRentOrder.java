@@ -21,19 +21,22 @@ public class DBRentOrder implements DBIFRentOrder{
 			selectAllQ + " where rID = ?";
 	private static final String insertRentOrderQ =
 			"insert into RentOrder(rentDate, rentedFrom, rentedTo, empID) values (?,?,?,?)";
+	private static final String deleteRengOrderQ =
+			"Delete from rentOrder where rID = ?";
 	
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
 	private PreparedStatement selectByRID;
 	private PreparedStatement insertRentOrder;
-	
+	private PreparedStatement deleteFromRentOrder;
 	
 	public DBRentOrder()throws SQLException{
 		Connection con = DBConnection.getInstance().getConnection();
 		selectAll = con.prepareStatement(selectAllQ);
 		selectByRID = con.prepareStatement(selectByRIDQ);
 		insertRentOrder = con.prepareStatement(insertRentOrderQ, Statement.RETURN_GENERATED_KEYS);
+		deleteFromRentOrder = con.prepareCall(deleteRengOrderQ);
 		
 	}
 
@@ -142,27 +145,16 @@ public class DBRentOrder implements DBIFRentOrder{
 		
 		return insertedId;
 	}
-	/*@Override
-	public boolean insertRentOrder(RentOrder rentOrder) throws DataAccessException {
-		boolean wasInsertedOK;
-		java.util.Date utilDate = new java.util.Date();
-	    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	public int deleteFromRentOrder(int rID)throws DataAccessException {
+		int deleted = 0;
 		try {
-			
-			//"insert into RentOrder(rentDate, rentedFrom, rentedTo, empID) values (?,?,?,?)";
-			insertRentOrder.setDate(1, sqlDate);
-			insertRentOrder.setInt(2, rentOrder.getRentedFrom().getwID());
-			insertRentOrder.setInt(3, rentOrder.getRentedTo().getwID());
-			insertRentOrder.setInt(4, rentOrder.getEmpID().getID());
-			int rowsInserted = insertRentOrder.executeUpdate();
-			wasInsertedOK = (rowsInserted == 1);
-			
+			deleteFromRentOrder.setInt(1, rID);
+			deleted = deleteFromRentOrder.executeUpdate();
 		} catch (SQLException e) {
-			DataAccessException he = new DataAccessException(e, "Could not insert rows");
-			throw he;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return wasInsertedOK;
-	}*/
-	
+		return deleted;
+	}
 }
