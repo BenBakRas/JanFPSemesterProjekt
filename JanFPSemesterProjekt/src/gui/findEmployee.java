@@ -15,10 +15,13 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
+import controller.EDescriptionController;
 import controller.EmployeeController;
+import controller.EquipmentController;
 import db.DataAccessException;
 import model.EDescription;
 import model.Employee;
@@ -74,8 +77,9 @@ public class findEmployee extends JDialog {
 			contentPanel.add(scrollPane);
 			{
 				EmployeeTable = new JTable();
+				EmployeeTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				model = new DefaultTableModel();
-				Object[] column = {"Navn","Adresse","Post Nr.","Telefon Nr.","email","ID"};
+				Object[] column = {"Navn","Adresse","Postnummer","Telefonnummer","email","ID"};
 				model.setColumnIdentifiers(column);
 				EmployeeTable.setModel(model);
 				
@@ -98,13 +102,26 @@ public class findEmployee extends JDialog {
 			}
 			{
 				JButton btnSeach = new JButton("S\u00F8g");
+				btnSeach.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							updateList();
+							addToList();
+						} catch (Exception w) {
+		                    System.out.println(w);
+		                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+		                    // TODO Auto-generated catch block
+		                }
+						
+					}
+				});
 				btnSeach.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				btnSeach.setActionCommand("OK");
 				buttonPane.add(btnSeach);
 				getRootPane().setDefaultButton(btnSeach);
 			}
 			{
-				JButton btnBack = new JButton("Tilbage");
+				JButton btnBack = new JButton("Cancel");
 				btnBack.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -128,5 +145,30 @@ public class findEmployee extends JDialog {
 			e.printStackTrace();
 		} 
 	}
-
+	private void updateList() throws DataAccessException{
+		try {
+		employeeController = new EmployeeController();
+		Object[] rowData = new Object[6];
+		rowData[5] = textField_EmployeeID.getText();
+		int eID = Integer.parseInt( textField_EmployeeID.getText());
+		Employee employee = employeeController.findByEID(eID);
+		rowData[0] = employee.getName();
+		rowData[1] = employee.getAddress();
+		rowData[2] = employee.getZipCode();
+		rowData[3] = employee.getPhone();
+		rowData[4] = employee.getEmail();
+		model.addRow(rowData);
+		
+		} catch (Exception w) {
+            System.out.println(w);
+            JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+            // TODO Auto-generated catch block
+        }
+	}
+	public void addToList() {
+		String EmployeeID = textField_EmployeeID.getText();
+		
+		//saleController.addOrderLineByBarcode();
+		textField_EmployeeID.setText("");
+	}
 }

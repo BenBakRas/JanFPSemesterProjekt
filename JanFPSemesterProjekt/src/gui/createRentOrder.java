@@ -380,6 +380,7 @@ public class createRentOrder extends JFrame {
 		);
 		
 		RentedEquipmentTable = new JTable();
+		RentedEquipmentTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		model = new DefaultTableModel();
 		Object[] column = {"Serie Nummer","Navn","Model","Stand","Equipment ID"};
 		model.setColumnIdentifiers(column);
