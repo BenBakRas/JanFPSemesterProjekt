@@ -7,9 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.RentOrderLineController;
+import db.DataAccessException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 
@@ -17,6 +22,7 @@ public class deleteEquipment extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_SerialNumber;
+	private RentOrderLineController rentOrderLineController;
 
 	/**
 	 * Launch the application.
@@ -61,8 +67,19 @@ public class deleteEquipment extends JDialog {
 				JButton BtnDelete = new JButton("Fjern");
 				BtnDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						try {
+							rentOrderLineController = new RentOrderLineController();
+							
+							int serialNumber = Integer.parseInt(textField_SerialNumber.getText());
+							int deletedRows = rentOrderLineController.deletedFromRentOrderLine(serialNumber);
+
+							dispose();
+						} catch (Exception w) {
+		                    System.out.println(w);
+		                    JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
+		                    // TODO Auto-generated catch block
+		                }
 						
-						dispose();
 					}
 				});
 				BtnDelete.setActionCommand("OK");
