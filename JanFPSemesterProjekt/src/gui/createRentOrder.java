@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -42,6 +44,7 @@ public class createRentOrder extends JFrame {
 	DefaultTableModel model;
 	private EquipmentController equipmentController;
 	private EDescriptionController eDescriptionController;
+
 	
 
 	/**
@@ -135,14 +138,29 @@ public class createRentOrder extends JFrame {
 		panelEast.add(verticalBox);
 		
 		JButton btnFindWorksite = new JButton("Find Arbejdsplads");
+		btnFindWorksite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openFindWorksite();
+			}
+		});
 		btnFindWorksite.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		verticalBox.add(btnFindWorksite);
 		
 		JButton btnFindEmployee = new JButton("Find Medarbejder");
+		btnFindEmployee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openFindEmployee();
+			}
+		});
 		btnFindEmployee.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		verticalBox.add(btnFindEmployee);
 		
 		JButton btnFindEquipment = new JButton("Find V\u00E6rkt\u00F8j");
+		btnFindEquipment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openFindEquipment();
+			}
+		});
 		btnFindEquipment.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		verticalBox.add(btnFindEquipment);
 		
@@ -292,7 +310,7 @@ public class createRentOrder extends JFrame {
 	
 	public void addToList() {
 		String serialNumber = textField_SerialNumber.getText();
-	
+		
 		//saleController.addOrderLineByBarcode();
 		textField_SerialNumber.setText("");
 	}
@@ -312,5 +330,23 @@ public class createRentOrder extends JFrame {
 		rowData[3] = equipment.geteState();
 		rowData[4] = eDescription.geteID();
 		model.addRow(rowData);
+	}
+	public static void findWorksite() {
+		
+	}
+	public static void openFindEmployee() {
+		findEmployee dialog = new findEmployee();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+	}
+	public static void openFindWorksite() {
+		findWorksite dialog = new findWorksite();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+	}
+	public static void openFindEquipment() {
+		findEquipment dialog = new findEquipment();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
 	}
 }
