@@ -137,7 +137,7 @@ public class createRentOrder extends JFrame {
 				try {
 				rentOrderController = new RentOrderController();
 				int rID = Integer.parseInt(lblRID.getText());
-				rentOrderController.deletedFromRentOrderLine(rID);
+				rentOrderController.deletedFromRentOrder(rID);
 				dispose();
 				openRentMenu();
 				

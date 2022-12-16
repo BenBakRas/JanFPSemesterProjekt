@@ -17,7 +17,7 @@ public class DBConnection {
 	//private static final String serverAddress = "192.168.56.2";
 	private static final int    serverPort = 1433;
 	private static final String userName = "sa";
-	private static final String password = "6133Jonas";
+	private static final String password = "qmb52xzp";
 	
 	private DBConnection() {
 		String connectionString = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s;encrypt=false", 
