@@ -516,7 +516,8 @@ public class test extends JFrame {
 					////worksiteController.findByWID(wID);
 					//worksiteController.findAll();
 		
-					//rentOrderController = new RentOrderController();
+					rentOrderController = new RentOrderController();
+					rentOrderController.findAll();
 					//rentOrderController.findByRID(rID);
 					 /*
 					rentOrderLineController = new RentOrderLineController();
