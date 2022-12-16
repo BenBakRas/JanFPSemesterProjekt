@@ -153,6 +153,8 @@ public class createRentOrder extends JFrame {
 		btnFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				openRentMenu();
+				JOptionPane.showMessageDialog(null,"Ordre afsluttet","Succes", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnFinish.setFont(new Font("Tahoma", Font.PLAIN, 12));
