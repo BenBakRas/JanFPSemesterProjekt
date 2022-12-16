@@ -105,7 +105,7 @@ public class DBRentOrderLine {
 	}
 	
 	public boolean insertRentOrderLine(RentOrderLine rentOrderLine) throws DataAccessException {
-		
+		Connection con = DBConnection.getInstance().getConnection();
 		boolean wasInsertedOK;
 		java.util.Date utilDate = new java.util.Date();
 	    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -120,7 +120,15 @@ public class DBRentOrderLine {
 			
 		} catch (SQLException e) {
 			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("Transaction is being rolledBack");
+			}
 			throw he;
+			
 		}
 		
 		return wasInsertedOK;

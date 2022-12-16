@@ -24,7 +24,7 @@ import org.junit.*;
 public class testRentOrderLine {
 
 	private static RentOrderLineController rolc;
-	private static RentOrderController roc;
+
 	
 	
 	public testRentOrderLine() throws DataAccessException {
@@ -33,6 +33,8 @@ public class testRentOrderLine {
 		
 	}
 
+	
+	
 	public void shouldCreateROL() throws DataAccessException {
 		
 		
