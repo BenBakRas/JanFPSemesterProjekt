@@ -47,7 +47,7 @@ public class RentMenu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblRentMenu = new JLabel("Rent Menu");
+		JLabel lblRentMenu = new JLabel("Leje Menu");
 		lblRentMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRentMenu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblRentMenu.setBounds(90, 11, 250, 50);
