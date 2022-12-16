@@ -91,16 +91,6 @@ public class findEmployee extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnFindAll = new JButton("Find Alle");
-				btnFindAll.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						EmployeeFindAll();
-					}
-				});
-				btnFindAll.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				buttonPane.add(btnFindAll);
-			}
-			{
 				JButton btnSeach = new JButton("S\u00F8g");
 				btnSeach.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -132,18 +122,6 @@ public class findEmployee extends JDialog {
 				buttonPane.add(btnBack);
 			}
 		}
-	}
-	public void EmployeeFindAll() {
-		try {
-			employeeController = new EmployeeController();
-			List<Employee> res = employeeController.findAll();
-			for(int i = 0; i < res.size(); i++) {
-				
-			}
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 	}
 	private void updateList() throws DataAccessException{
 		try {

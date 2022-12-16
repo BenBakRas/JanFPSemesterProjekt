@@ -39,7 +39,7 @@ public class RentOrderController {
 		return rID;
 	}
 	
-	public int deletedFromRentOrderLine(int rID) throws DataAccessException {
+	public int deletedFromRentOrder(int rID) throws DataAccessException {
 		int deleted = dbRentOrder.deleteFromRentOrder(rID);
 
 		return deleted;

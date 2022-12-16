@@ -10,7 +10,7 @@ public interface DBIFRentOrder {
 	List<RentOrder> findAll() throws DataAccessException;
 	RentOrder findByRID(int rID) throws DataAccessException;
 	int insertRentOrder(RentOrder rentOrder) throws DataAccessException;
-	int deleteRentOrder(int rID)throws DataAccessException;
+	int deleteFromRentOrder(int rID)throws DataAccessException;
 	
 
 }
