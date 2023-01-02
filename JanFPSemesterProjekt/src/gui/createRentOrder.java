@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.FlowLayout;
@@ -32,9 +34,12 @@ import controller.EquipmentController;
 import controller.RentOrderController;
 import controller.RentOrderLineController;
 import controller.WorksiteController;
+import db.DBRentOrder;
+import db.DBRentOrderLine;
 import db.DataAccessException;
 import model.EDescription;
 import model.Equipment;
+import model.RentOrder;
 import model.RentOrderLine;
 
 public class createRentOrder extends JFrame {
@@ -53,6 +58,7 @@ public class createRentOrder extends JFrame {
 	private EmployeeController employeeController;
 	private WorksiteController worksiteController;
 	private RentOrderLine rentOrderLine;
+	private DBRentOrderLine dbRentOrderLine;
 
 	
 
@@ -154,6 +160,27 @@ public class createRentOrder extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				openRentMenu();
+				
+				try {
+					
+					dbRentOrderLine = new DBRentOrderLine();
+					int rID = Integer.parseInt(lblRID.getText());
+					rentOrderController = new RentOrderController();
+					ArrayList<RentOrderLine> foundRentOrderLine = new ArrayList<RentOrderLine>();
+					foundRentOrderLine = dbRentOrderLine.getRentOrderLineFromDBByRID(rID);
+					
+					System.out.println("Ordren blev afsluttet med " + foundRentOrderLine.size() + " stks. Værktøj.");
+					foundRentOrderLine.forEach((n) -> System.out.println(n));
+		
+					
+				} catch (DataAccessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
 				JOptionPane.showMessageDialog(null,"Ordre afsluttet","Succes", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -232,7 +259,7 @@ public class createRentOrder extends JFrame {
 				int serialNumber = Integer.parseInt(textField_SerialNumber.getText());
 				Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
 				EDescription eDescription = equipment.getDescription();
-				              
+				            
 				int eID = eDescription.geteID();
 				//int eID = Integer.parseInt(textEID.getText());
 				int rID = Integer.parseInt(lblRID.getText());
@@ -242,13 +269,16 @@ public class createRentOrder extends JFrame {
 			
 			    updateList();
 				addToList();
+
+				rentOrderController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
+
 				
-				boolean	wasAlsoInsertedOk = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
 				} catch (Exception w) {
                     System.out.println(w);
                     JOptionPane.showMessageDialog(null,"Fejl ved indtastning","Wrong", JOptionPane.INFORMATION_MESSAGE);
                     // TODO Auto-generated catch block
                 }
+				
 			}
 				
 				

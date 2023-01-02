@@ -11,6 +11,7 @@ import java.util.List;
 
 import model.Employee;
 import model.RentOrder;
+import model.RentOrderLine;
 import model.Worksite;
 
 public class DBRentOrder implements DBIFRentOrder{
@@ -23,6 +24,8 @@ public class DBRentOrder implements DBIFRentOrder{
 			"insert into RentOrder(rentDate, rentedFrom, rentedTo, empID) values (?,?,?,?)";
 	private static final String deleteRengOrderQ =
 			"Delete from rentOrder where rID = ?";
+	private static final String insertRentOrderLineQ = 
+			"insert into rentOrderLine (returnDate, serialNumber, eID, rID) values (?,?,?,?)";
 	
 	
 	//PrepatredStatements
@@ -30,6 +33,7 @@ public class DBRentOrder implements DBIFRentOrder{
 	private PreparedStatement selectByRID;
 	private PreparedStatement insertRentOrder;
 	private PreparedStatement deleteFromRentOrder;
+	private PreparedStatement insertRentOrderLine;
 	
 	public DBRentOrder()throws SQLException{
 		Connection con = DBConnection.getInstance().getConnection();
@@ -37,6 +41,7 @@ public class DBRentOrder implements DBIFRentOrder{
 		selectByRID = con.prepareStatement(selectByRIDQ);
 		insertRentOrder = con.prepareStatement(insertRentOrderQ, Statement.RETURN_GENERATED_KEYS);
 		deleteFromRentOrder = con.prepareCall(deleteRengOrderQ);
+		insertRentOrderLine = con.prepareStatement(insertRentOrderLineQ);
 		
 	}
 
@@ -156,6 +161,41 @@ public class DBRentOrder implements DBIFRentOrder{
 		}
 		
 		return deleted;
+
 	}
+	
+	public void insertRentOrderLine(RentOrderLine rentOrderLine) throws DataAccessException {
+		Connection con = DBConnection.getInstance().getConnection();
+
+		java.util.Date utilDate = new java.util.Date();
+	    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		try {
+			//insert into rentOrderLine (rID, serialNumber, eID, returnDate) values (?,?,?,?)"
+			insertRentOrderLine.setDate(1, sqlDate);
+			insertRentOrderLine.setInt(2, rentOrderLine.getEquipment().getSerialNumber());
+			insertRentOrderLine.setInt(3, rentOrderLine.geteDescription().geteID());
+			insertRentOrderLine.setInt(4, rentOrderLine.getrID().getrID());
+			insertRentOrderLine.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			DataAccessException he = new DataAccessException(e, "Could not insert rows");
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("Transaction is being rolledBack");
+			}
+			throw he;
+			
+		}
+	
+	}
+	
+	
+	
 }
+
+
 

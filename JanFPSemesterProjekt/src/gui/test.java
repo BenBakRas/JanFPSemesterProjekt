@@ -11,6 +11,7 @@ import controller.EquipmentController;
 import controller.RentOrderController;
 import controller.RentOrderLineController;
 import controller.WorksiteController;
+import db.DBRentOrderLine;
 import db.DataAccessException;
 import model.EDescription;
 import model.Equipment;
@@ -26,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -39,6 +41,7 @@ public class test extends JFrame {
 	private WorksiteController worksiteController;
 	private RentOrderController rentOrderController;
 	private RentOrderLineController rentOrderLineController;
+	private DBRentOrderLine dbRentOrderLine;
 	private JTextField textEID;
 	private JTextField textEName;
 	private JTextField textModel;
@@ -387,20 +390,20 @@ public class test extends JFrame {
 					
 			
 					
-					int serialNumber = Integer.parseInt(textField_serialNumber.getText());
-					Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
-					EDescription eDescription = equipment.getDescription();
+					//int serialNumber = Integer.parseInt(textField_serialNumber.getText());
+					//Equipment equipment = equipmentController.findBySerialNumber(serialNumber);
+					//EDescription eDescription = equipment.getDescription();
 					              
-					int eID = eDescription.geteID();
+					//int eID = eDescription.geteID();
 					//int eID = Integer.parseInt(textEID.getText());
 					//int rID = rent
 					
 					
 				
-					boolean wasAlsoInsertedOk = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
+					//boolean wasAlsoInsertedOk = rentOrderLineController.insertRentOrderLine(sqlDate, equipmentController.findBySerialNumber(serialNumber), eDescriptionController.findByEID(eID), rentOrderController.findByRID(rID));
 
 					//System.out.println(wasInsertedOK);
-					System.out.println(wasAlsoInsertedOk);
+					//System.out.println(wasAlsoInsertedOk);
 					System.out.println("Works");
 				} catch (DataAccessException e1) {
 					// TODO Auto-generated catch block
@@ -496,8 +499,8 @@ public class test extends JFrame {
 				//int serialNumber = 45;
 				//int eID = 1;
 				//int wID = 2001;
-				int empID = 103;
-				//int rID = 1001;
+				//int empID = 103;
+				int rID = 1070;
 				 try {
 					//employeeController = new EmployeeController();
 					//employeeController.findByEID(ID);
@@ -510,19 +513,32 @@ public class test extends JFrame {
 					eDescriptionController = new EDescriptionController();
 					//eDescriptionController.findByEID(eID);
 					 
-					rentOrderController = new RentOrderController();
-					
-					
+					//rentOrderController = new RentOrderController();
+					dbRentOrderLine = new DBRentOrderLine();
+					dbRentOrderLine.getRentOrderLineFromDBByRID(rID);
+					System.out.println(dbRentOrderLine.getRentOrderLineFromDBByRID(rID));
 					////worksiteController.findByWID(wID);
 					//worksiteController.findAll();
 		
-					rentOrderController = new RentOrderController();
-					rentOrderController.findAll();
+					/*rentOrderController = new RentOrderController();
+					try {
+						rentOrderController.readRentOrder(rID);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}*/
+					//rentOrderController.findAll();
 					//rentOrderController.findByRID(rID);
-					 /*
-					rentOrderLineController = new RentOrderLineController();
-					RentOrderLine rentOrderLine = rentOrderLineController.findByRID(rID);
-					System.out.println("RentOrderLine info");
+					//System.out.println();
+					 
+					//rentOrderLineController = new RentOrderLineController();
+					////System.out.println(rentOrderLine);
+					
+					//rentOrderLineController = new RentOrderLineController();
+					//RentOrderLine newRentOrderLine = rentOrderLineController.findByRID(rID);
+					
+					
+					/*System.out.println("RentOrderLine info");
 					System.out.println(rentOrderLine + ". rID: " + rID);
 					int serialNumber = rentOrderLine.getEquipment().getSerialNumber();
 					System.out.println(serialNumber);
@@ -536,6 +552,9 @@ public class test extends JFrame {
 					*/
 					
 				} catch (DataAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

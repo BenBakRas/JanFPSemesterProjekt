@@ -1,4 +1,4 @@
-package model;
+ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,37 +32,9 @@ public class RentOrder {
 	}
 	
 	public String toString() {
-		return "RentDate: " + getRentDate() + ". rID: " + getrID();
+		return "RentDate: " + rentDate + ". rID: " + rID + "RentedFrom: " + rentedFrom + ". RentedTo: " + rentedTo + ". Employee ID: " + empID + ". RentOrderLines: " + rentOrderLines;
 	}
 
-	/*
-	public RentOrderLine createOrderLine(Date returnDate, Equipment eq, EDescription eDesc){
-		RentOrderLine rentOrderLine = new RentOrderLine(returnDate, eq, eDesc);
-		rentOrderLines.add(rentOrderLine);
-        return rentOrderLine;
-    }
-    
-   
-    
-    public RentOrderLine addProductToOrder(Date returnDate, Equipment eq, EDescription eDesc){
-        if(rentOrderLines.size() != 0){
-            for(RentOrderLine rentOrderLine : rentOrderLines){
-                if(rentOrderLine.getEquipment().equals(eq)){
-                	returnDate = new Date();
-                	eDesc = rentOrderLine.geteDescription();
-                   
-                	rentOrderLine.seteDescription(eDesc);
-                    return rentOrderLine;
-                } else {
-                    return createOrderLine(returnDate, eq, eDesc);
-                }
-            }
-        }
-        else {
-        	return createOrderLine(returnDate, eq, eDesc);
-        }
-        return null;
-    }
     
     public void addOrderLine(RentOrderLine rentOrderLine) {
         rentOrderLines.add(rentOrderLine);
@@ -70,12 +42,16 @@ public class RentOrder {
 	
 	
 	public ArrayList<RentOrderLine> getOrderLines() {
-        return new ArrayList<>(rentOrderLines);
+        return rentOrderLines;
     }
+	
+	public void setRentOrderLines(ArrayList<RentOrderLine> rentOrderLines) {
+		this.rentOrderLines = rentOrderLines;
+	}
     
     public void clear() {
     	rentOrderLines.clear(); 
-    }*/
+    }
 	
 	/**
 	 * @return the rID

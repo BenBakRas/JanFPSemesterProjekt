@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import model.EDescription;
@@ -22,7 +23,8 @@ public class DBRentOrderLine {
 			"insert into rentOrderLine (returnDate, serialNumber, eID, rID) values (?,?,?,?)";
 	private static final String deleteFromRentOrderLineQ =
 			"delete from RentOrderline where serialNumber = ?";
-
+	
+	
 	
 	//PrepatredStatements
 	private PreparedStatement selectAll; 
@@ -39,6 +41,29 @@ public class DBRentOrderLine {
 	}
 	
 	
+	
+	public ArrayList<RentOrderLine> getRentOrderLineFromDBByRID(int rID) throws SQLException {
+		ArrayList<RentOrderLine> foundRentOrderLines = new ArrayList<RentOrderLine>();
+		
+		selectByRID.setInt(1, rID);
+		ResultSet solResult = selectByRID.executeQuery();
+		Date returnDate;
+		Equipment equipment;
+		EDescription eDescription;
+		RentOrder rentOrder;
+		while(solResult.next()) {
+			returnDate = solResult.getDate("returnDate");
+			equipment = new Equipment(solResult.getInt("serialNumber"));
+			eDescription = new EDescription(solResult.getInt("eID"));
+			rentOrder = new RentOrder(solResult.getInt("rID"));
+			foundRentOrderLines.add(new RentOrderLine(returnDate, equipment, eDescription, rentOrder));
+		}
+		
+		return foundRentOrderLines;
+		
+	}
+	
+
 	/*
 	 * Returns a list of all equipment
 	 */
@@ -65,7 +90,7 @@ public class DBRentOrderLine {
 			if(rs.next()) {
 				rentOrderLine = buildObject(rs);
 				//System.out.println(employee.getName());
-				//System.out.print(rentOrderLine);
+				System.out.print(rentOrderLine);
 				
 			}
 	
